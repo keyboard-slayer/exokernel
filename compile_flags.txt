@@ -1,0 +1,8 @@
+-nostdlib	
+-fno-builtin
+-std=c89	
+-pedantic	
+-Wpedantic	
+-Werror		
+-Wextra		
+-Wall
