@@ -14,7 +14,7 @@ LINK_SCRIPT = src/linker.ld
 CFLAGS =							\
 	-nostdlib						\
 	-fno-builtin					\
-	-std=c89						\
+	-std=c99						\
 	-pedantic						\
 	-Wpedantic						\
 	-Werror							\
@@ -47,6 +47,13 @@ LDFLAGS += -T$(LINK_SCRIPT)
 run: sysroot
 	$(QEMU) $(QEMU_FLAGS)
 
-sysroot: $(KERNEL) LOADER
+sysroot: $(KERNEL) $(LOADER_FILE)
 	mkdir -p $(SYSROOT)/boot
 	cp $(KERNEL) $(SYSROOT)/boot
+
+clean:
+	rm -r $(BUILD)
+	rm -r $(SYSROOT)
+
+.PHONY: run clean
+.DEFAULT_GOAL := sysroot

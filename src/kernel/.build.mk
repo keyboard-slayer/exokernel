@@ -9,7 +9,8 @@ KERNEL_CFLAGS = 					\
 	-mno-sse2						\
 	-fno-zero-initialized-in-bss	\
 	-mcmodel=kernel					\
-	-m64
+	-m64							\
+	-DSTB_SPRINTF_IMPLEMENTATION
 
 KERNEL_LDFLAGS =					\
 	$(LDFLAGS)						\

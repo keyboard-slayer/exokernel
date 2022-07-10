@@ -1,8 +1,9 @@
 -nostdlib	
 -fno-builtin
--std=c89	
+-std=c99
 -pedantic	
 -Wpedantic	
 -Werror		
 -Wextra		
 -Wall
+-DSTB_SPRINTF_IMPLEMENTATION

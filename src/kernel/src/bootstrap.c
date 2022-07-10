@@ -1,7 +1,7 @@
-#include "../inc/com.h"
+#include "../inc/logging.h"
 
 int _start(void)
 {
-    com_puts("Hello, World !\n");
+    klog(OK, "Hello World !");
     for (;;);
 }
