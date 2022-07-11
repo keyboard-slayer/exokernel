@@ -12,6 +12,7 @@
 
 typedef enum 
 {
+    NONE,
     OK,
     INFO,
     ERROR

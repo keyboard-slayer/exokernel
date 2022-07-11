@@ -41,7 +41,7 @@ QEMU_FLAGS =												\
 	-smp 4													\
 	-bios $(BIOS)											\
 	-drive file=fat:rw:sysroot,media=disk,format=raw		\
-	-enable-kvm
+	-enable-kvm												\
 
 include src/$(ARCH)/.build.mk
 include src/$(LOADER)/.build.mk
