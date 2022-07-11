@@ -3,7 +3,7 @@
 #include "../inc/stb_sprintf.h"
 
 static const char *log[] = {
-    "\033[35mOK\033[39m", "\033[34mINFO\033[39m", "\033[31mERROR\033[39m"
+    "\033[35mOK   \033[39m", "\033[34mINFO \033[39m", "\033[31mERROR\033[39m"
 };
 
 void klog_impl(log_level_t level, char const *filename, size_t lineno, char const *format, ...)

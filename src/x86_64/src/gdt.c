@@ -40,7 +40,7 @@ static tss_entry_t init_tss(uintptr_t tss)
 
 void gdt_init(void)
 {
-    klog(OK, "Initializing GDT...");
+    klog(INFO, "Initializing GDT...");
 
     gdt_init_entry(&gdt.entries[GDT_NULL], 0, 0, 0, 0);
     klog(INFO, "GDT entry 0 initialized at %016x.", (uint64_t) &gdt.entries[GDT_NULL]);
