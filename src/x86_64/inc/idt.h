@@ -27,6 +27,7 @@ typedef enum
     INT_TASK_GATE = 0x5,
     INT_INTERRUPT_GATE = 0xE,
     INT_TRAP_GATE = 0xF,
+    INT_PRESENT = 1 << 7
 } interrupt_type_t;
 
 extern uintptr_t __interrupt_vector[];
