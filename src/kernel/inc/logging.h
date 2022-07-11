@@ -1,5 +1,5 @@
-#ifndef _KERNEL_LOGGING_H
-#define _KERNEL_LOGGING_H
+#ifndef _KERNEL_INC_LOGGING_H_
+#define _KERNEL_INC_LOGGING_H_
 
 #include <stddef.h>
 #include <stdarg.h>
@@ -19,4 +19,4 @@ typedef enum
 
 void klog_impl(log_level_t level, char const *filename, size_t lineno, char const *format, ...);
 
-#endif /* !_KERNEL_LOGGING_H */
+#endif /* !_KERNEL_INC_LOGGING_H_ */

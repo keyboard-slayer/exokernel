@@ -1,7 +1,7 @@
-#include "../inc/logging.h"
+#include "../inc/arch.h"
 
 int _start(void)
 {
-    klog(OK, "Hello World !");
+    arch_init();
     for (;;);
 }

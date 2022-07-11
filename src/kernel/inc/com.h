@@ -1,7 +1,7 @@
-#ifndef _KERNEL_COM_H
-#define _KERNEL_COM_H
+#ifndef KERNEL_INC_COM_H_
+#define KERNEL_INC_COM_H_
 
 void com_putc(char c);
 void com_puts(char const *s);
 
-#endif /* !_KERNEL_COM_H */
+#endif /* !KERNEL_INC_COM_H_ */

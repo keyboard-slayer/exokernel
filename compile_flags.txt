@@ -7,3 +7,4 @@
 -Wextra		
 -Wall
 -DSTB_SPRINTF_IMPLEMENTATION
+-Isrc/

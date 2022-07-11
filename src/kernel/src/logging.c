@@ -17,5 +17,6 @@ void klog_impl(log_level_t level, char const *filename, size_t lineno, char cons
     va_start(args, format);
     stbsp_vsprintf(buf, format, args);
     com_puts(buf);
+    com_putc('\n');
     va_end(args);
 }

@@ -1,5 +1,6 @@
 CC = clang
 LD = ld.lld
+AS = nasm
 
 MKCWD=mkdir -p $(@D)
 BUILD = ./build
@@ -24,6 +25,10 @@ CFLAGS =							\
 	-ffreestanding					\
 	-fno-stack-protector			\
 	-O0								\
+
+ASFLAGS =							\
+	-F dwarf						\
+	-g
 
 LDFLAGS = 							\
 	-static							\
