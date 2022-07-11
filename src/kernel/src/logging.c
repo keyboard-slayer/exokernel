@@ -1,6 +1,9 @@
 #include "../inc/com.h"
 #include "../inc/logging.h"
 #include "../inc/stb_sprintf.h"
+#include "../inc/lock.h"
+
+DECLARE_LOCK(logging);
 
 static const char *log[] = {
     "", "[ \033[35mOK   \033[39m] ", "[ \033[34mINFO \033[39m] ", "[ \033[31mERROR\033[39m] "
@@ -8,6 +11,7 @@ static const char *log[] = {
 
 void klog_impl(log_level_t level, char const *filename, size_t lineno, char const *format, ...)
 {
+    LOCK(logging);
     va_list args;
     char buf[512] = {0};
 
@@ -23,4 +27,5 @@ void klog_impl(log_level_t level, char const *filename, size_t lineno, char cons
     com_puts(buf);
     com_putc('\n');
     va_end(args);
+    UNLOCK(logging);
 }
