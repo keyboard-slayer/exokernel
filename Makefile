@@ -24,7 +24,7 @@ CFLAGS =							\
 	-ggdb							\
 	-ffreestanding					\
 	-fno-stack-protector			\
-	-O0								\
+	-Os								\
 
 ASFLAGS =							\
 	-F dwarf						\

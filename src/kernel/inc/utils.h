@@ -3,6 +3,9 @@
 
 #include <stddef.h>
 
+#define GENERATE_ENUM(ENUM) ENUM,
+#define GENERATE_STRING(STRING) #STRING,
+
 void *memset(void *s, int c, size_t n);
 char *strchr(char const *s, int c);
 size_t strlen(char const *s);

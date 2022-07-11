@@ -43,22 +43,22 @@ void gdt_init(void)
     klog(INFO, "Initializing GDT...");
 
     gdt_init_entry(&gdt.entries[GDT_NULL], 0, 0, 0, 0);
-    klog(INFO, "GDT entry 0 initialized at %016x.", (uint64_t) &gdt.entries[GDT_NULL]);
+    klog(INFO, "GDT entry 0 initialized at %p.", (uint64_t) &gdt.entries[GDT_NULL]);
 
     gdt_init_entry(&gdt.entries[GDT_KERNEL_CODE], 0, 0, GDT_EXECUTABLE, GDT_LONG_MODE | GDT_GRANULARITY);
-    klog(INFO, "GDT entry 1 initialized at %016x.", (uint64_t) &gdt.entries[GDT_KERNEL_CODE]);
+    klog(INFO, "GDT entry 1 initialized at %p.", (uint64_t) &gdt.entries[GDT_KERNEL_CODE]);
 
     gdt_init_entry(&gdt.entries[GDT_KERNEL_DATA], 0, 0, GDT_RW, GDT_LONG_MODE | GDT_GRANULARITY);
-    klog(INFO, "GDT entry 2 initialized at %016x.", (uint64_t) &gdt.entries[GDT_KERNEL_DATA]);
+    klog(INFO, "GDT entry 2 initialized at %p.", (uint64_t) &gdt.entries[GDT_KERNEL_DATA]);
 
     gdt_init_entry(&gdt.entries[GDT_USER_CODE], 0, 0, GDT_EXECUTABLE | GDT_USER_MODE, GDT_LONG_MODE | GDT_GRANULARITY);
-    klog(INFO, "GDT entry 3 initialized at %016x.", (uint64_t) &gdt.entries[GDT_USER_CODE]);
+    klog(INFO, "GDT entry 3 initialized at %p.", (uint64_t) &gdt.entries[GDT_USER_CODE]);
 
     gdt_init_entry(&gdt.entries[GDT_USER_DATA], 0, 0, GDT_RW | GDT_USER_MODE, GDT_LONG_MODE | GDT_GRANULARITY);
-    klog(INFO, "GDT entry 4 initialized at %016x.", (uint64_t) &gdt.entries[GDT_USER_DATA]);
+    klog(INFO, "GDT entry 4 initialized at %p.", (uint64_t) &gdt.entries[GDT_USER_DATA]);
 
     gdt.tss_entry = init_tss((uintptr_t) &tss);
-    klog(INFO, "TSS entry initialized at %016x.", (uint64_t) &gdt.tss_entry);
+    klog(INFO, "TSS entry initialized at %p.", (uint64_t) &gdt.tss_entry);
     tss.iopb = sizeof(tss_t);
 
     gdt_flush((uintptr_t) &gdt_descriptor);

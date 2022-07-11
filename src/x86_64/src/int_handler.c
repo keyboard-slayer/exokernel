@@ -52,17 +52,17 @@ static void output_exception(regs_t const *regs)
     klog(ERROR, "Exception %s (0x%x) Err: %d\n\t", exception_messages[regs->intno], 
                  regs->intno, regs->err);
 
-    klog(NONE, "RAX %016x RBX %016x RCX %016x RDX %016x", regs->rax,
+    klog(NONE, "RAX %p RBX %p RCX %p RDX %p", regs->rax,
                  regs->rbx, regs->rcx, regs->rdx);
-    klog(NONE, "RSI %016x RDI %016x RBP %016x RSP %016x", regs->rsi,
+    klog(NONE, "RSI %p RDI %p RBP %p RSP %p", regs->rsi,
                  regs->rdi, regs->rbp, regs->rsp);
-    klog(NONE, "R8  %016x R9  %016x R10 %016x R11 %016x", regs->r8,
+    klog(NONE, "R8  %p R9  %p R10 %p R11 %p", regs->r8,
                  regs->r9, regs->r10, regs->r11);
-    klog(NONE, "R12 %016x R13 %016x R14 %016x R15 %016x", regs->r12,
+    klog(NONE, "R12 %p R13 %p R14 %p R15 %p", regs->r12,
                  regs->r13, regs->r14, regs->r15);
-    klog(NONE, "CR0 %016x CR2 %016x CR3 %016x CR4 %016x", cr0, cr2, cr3, cr4);
-    klog(NONE, "CS  %016x SS  %016x FLG %016x", regs->cs, regs->ss, regs->rflags);
-    klog(NONE, "RIP \033[7m%016x\033[0m", regs->rip);
+    klog(NONE, "CR0 %p CR2 %p CR3 %p CR4 %p", cr0, cr2, cr3, cr4);
+    klog(NONE, "CS  %p SS  %p FLG %p", regs->cs, regs->ss, regs->rflags);
+    klog(NONE, "RIP \033[7m%p\033[0m", regs->rip);
 }
 
 uint64_t interrupts_handler(uint64_t rsp)
