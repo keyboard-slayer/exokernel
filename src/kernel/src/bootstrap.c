@@ -1,13 +1,10 @@
 #include "../inc/arch.h"
-#include "../inc/loader.h"
-#include "../inc/lock.h"
-#include "../inc/logging.h"
-
-DECLARE_LOCK(lock);
+#include "../inc/pmm.h"
 
 int _start(void)
 {
     arch_init();
+    pmm_init();
     for (;;);
 
     __builtin_unreachable();

@@ -23,10 +23,12 @@ memmaps_t *loader_get_memmap(void)
         return NULL;
     }
 
-    if (memmaps.entries[0].length != 0)
+    if (memmaps.length > 0)
     {
         return &memmaps;
     }
+
+    memmaps.length = memmap_request.response->entry_count;
 
     for (size_t i = 0; i < memmap_request.response->entry_count; i++)
     {
@@ -37,4 +39,14 @@ memmaps_t *loader_get_memmap(void)
     }
 
     return &memmaps;
+}
+
+uint64_t loader_get_hhdm(void)
+{
+    if (hhdm_request.response == NULL)
+    {
+        return 0;
+    }
+
+    return hhdm_request.response->offset;
 }

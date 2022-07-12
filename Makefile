@@ -14,17 +14,17 @@ LINK_SCRIPT = src/linker.ld
 
 CFLAGS =							\
 	-nostdlib						\
-	-fno-builtin					\
 	-std=c99						\
+	-fbuiltin						\
 	-pedantic						\
 	-Wpedantic						\
 	-Werror							\
 	-Wextra							\
 	-Wall							\
 	-ggdb							\
-	-ffreestanding					\
 	-fno-stack-protector			\
 	-Os								\
+	-D__$(ARCH)__
 
 ASFLAGS =							\
 	-F dwarf						\
@@ -32,6 +32,7 @@ ASFLAGS =							\
 
 LDFLAGS = 							\
 	-static							\
+	-nostdlib						\
 
 QEMU_FLAGS =												\
 	-no-shutdown											\

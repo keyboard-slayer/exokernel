@@ -37,8 +37,10 @@ typedef struct
 typedef struct
 {
     memmap_t entries[LIMIT_ENTRIES];
+    size_t length;
 } memmaps_t;
 
 memmaps_t *loader_get_memmap(void);
+uint64_t loader_get_hhdm(void);
 
 #endif /* !KERNEL_INC_LOADER_H_ */
