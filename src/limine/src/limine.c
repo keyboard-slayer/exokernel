@@ -19,6 +19,11 @@ volatile struct limine_kernel_address_request kernel_address_request = {
     .revision = 0,
 };
 
+volatile struct limine_smp_request smp_request = {
+    .id = LIMINE_SMP_REQUEST,
+    .revision = 0,
+};
+
 static memmaps_t memmaps = {0};
 
 memmaps_t *loader_get_memmap(void)

@@ -19,6 +19,7 @@ KERNEL_LDFLAGS =					\
 
 KERNEL_SRC += 						\
 	$(wildcard src/kernel/src/*.c)	\
+	$(wildcard src/kernel/src/liballoc/*.c)
 
 KERNEL_OBJ := $(patsubst %, $(BUILD)/%.o, $(KERNEL_SRC))
 

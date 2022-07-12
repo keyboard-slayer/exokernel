@@ -14,7 +14,7 @@ static uint8_t *bitmap;
 static size_t bitmap_size = 0;
 static size_t last_index = 0;
 
-static void pmm_free(uint64_t base, uint64_t length)
+void pmm_free(uint64_t base, uint64_t length)
 {
     LOCK(pmm);
     
