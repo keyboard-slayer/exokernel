@@ -6,6 +6,7 @@
 #include "../inc/utils.h"
 
 #include <stdint.h>
+#include <stdbool.h>
 
 DECLARE_LOCK(pmm);
 
@@ -29,19 +30,15 @@ static void pmm_free(uint64_t base, uint64_t length)
 
 static void pmm_set_used(uint64_t base, uint64_t length)
 {
-    LOCK(pmm);
-
     size_t target = base / PAGE_SIZE;
 
-    for (size_t i = target; i < length / PAGE_SIZE; i++)
+    for (size_t i = 0; i < length / PAGE_SIZE; i++)
     {
-        bitmap[i / 8] |= (1 << (i % 8));
+        bitmap[(i + target ) / 8] |= (1 << ((i + target) % 8));
     }
-
-    UNLOCK(pmm);
 }
 
-static _Bool bitmap_is_bit_set(size_t index)
+static bool bitmap_is_bit_set(size_t index)
 {
     return bitmap[index / 8] & (1 << (index % 8));
 }
@@ -73,6 +70,7 @@ void *pmm_alloc(size_t length)
     if (size >= length)
     {
         last_index = (base + length) / PAGE_SIZE;
+        pmm_set_used(base, length);
     }
     else  
     {
@@ -81,6 +79,9 @@ void *pmm_alloc(size_t length)
             klog(ERROR, "Not enough memory.");
             halt();
         }
+
+        last_index = 0;
+        return pmm_alloc(length);
     }
 
     UNLOCK(pmm);

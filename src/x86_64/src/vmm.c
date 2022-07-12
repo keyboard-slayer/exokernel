@@ -13,12 +13,13 @@ static uint64_t vmm_get_pml_alloc(pml_t *pml, size_t index, bool user)
 {
     pml_entry_t entry = pml->entries[index];
 
-    if (entry.present)   {
+    if (entry.present)   
+    {
         return (entry.physical << 12) + loader_get_hhdm();
     }
     else  
     {
-        uint64_t new_entry = ((uint64_t) pmm_alloc(PAGE_SIZE)) + loader_get_hhdm();
+        uint64_t new_entry = ((uint64_t) pmm_alloc(PAGE_SIZE));
 
         if (new_entry == 0)
         {
@@ -29,7 +30,7 @@ static uint64_t vmm_get_pml_alloc(pml_t *pml, size_t index, bool user)
         __builtin_memset((void *) new_entry, 0, PAGE_SIZE);
         pml->entries[index] = pml_make_entry(new_entry, user);
 
-        return new_entry;
+        return new_entry + loader_get_hhdm();
     }
 }
 
@@ -41,8 +42,7 @@ static void vmm_map_page(pml_t *pml, uint64_t virt, uint64_t phys, bool user)
 
     for (size_t i = 3; i > 0; i--)
     {
-        uint64_t pml_addr = vmm_get_pml_alloc(last_entry, PMLX_GET_INDEX(virt, i), true);
-        last_entry = (pml_t *) pml_addr;
+        last_entry = (pml_t *) vmm_get_pml_alloc(last_entry, PMLX_GET_INDEX(virt, i), true);
     }
 
 
@@ -71,9 +71,7 @@ static void vmm_map(pml_t *pml, virtual_physical_map_t map, bool user)
         size_t physaddr = i * PAGE_SIZE + map.physical;
         size_t virtaddr = i * PAGE_SIZE + map.virtual;
 
-        klog(OK, "Mapping %p to %p", physaddr, virtaddr);
         vmm_map_page(pml, virtaddr, physaddr, user);
-        klog(OK, "Mapped %p to %p", physaddr, virtaddr);
     }
 }
 
@@ -82,6 +80,7 @@ void vmm_init(void)
     klog(INFO, "Initializing VMM.");
 
     kernel_pml4 = (pml_t *) ((uintptr_t) pmm_alloc(PAGE_SIZE) + loader_get_hhdm());
+    klog(INFO, "Allocated kernel PML at %p", kernel_pml4);
 
     if (kernel_pml4 == NULL)
     {
@@ -91,6 +90,7 @@ void vmm_init(void)
 
     __builtin_memset(kernel_pml4, 0, PAGE_SIZE);
 
+    klog(INFO, "Mapping %p to %p", 0, loader_get_hhdm());
     vmm_map(kernel_pml4, (virtual_physical_map_t) {
         .physical = 0,
         .virtual = loader_get_hhdm(),
