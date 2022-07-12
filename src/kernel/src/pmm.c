@@ -20,9 +20,9 @@ static void pmm_free(uint64_t base, uint64_t length)
     
     size_t target = base / PAGE_SIZE;
 
-    for (uint64_t i = target; i < length; i++)
+    for (uint64_t i = 0; i < length / PAGE_SIZE; i++)
     {
-        bitmap[i / 8] &= ~(1 << (i % 8));
+        bitmap[(i+target) / 8] &= ~(1 << ((i+target) % 8));
     }
 
     UNLOCK(pmm);
@@ -34,7 +34,7 @@ static void pmm_set_used(uint64_t base, uint64_t length)
 
     for (size_t i = 0; i < length / PAGE_SIZE; i++)
     {
-        bitmap[(i + target ) / 8] |= (1 << ((i + target) % 8));
+        bitmap[(i + target) / 8] |= (1 << ((i + target) % 8));
     }
 }
 
@@ -109,7 +109,7 @@ void pmm_init(void)
     }
 
     memmap_t last = memmaps->entries[memmaps->length - 1];
-    bitmap_size = ALIGN_UP((last.base + last.length) / PAGE_SIZE * 8, PAGE_SIZE);
+    bitmap_size = ALIGN_UP((last.base + last.length) / (PAGE_SIZE * 8), PAGE_SIZE);
 
     klog(INFO, "PMM bitmap size: %zu bytes.", bitmap_size);
 
@@ -138,14 +138,11 @@ void pmm_init(void)
 
     for (size_t i = 0; i < memmaps->length; i++)
     {
-        memmap_t *entry = &memmaps->entries[i];
+        memmap_t entry = memmaps->entries[i];
 
-        if (entry->type == MEMMAP_USABLE)
+        if (entry.type == MEMMAP_USABLE)
         {
-            for (size_t j = 0; j < entry->length; j += PAGE_SIZE)
-            {
-                pmm_free(entry->base + j, PAGE_SIZE);
-            }
+            pmm_free(ALIGN_DOWN(entry.base, PAGE_SIZE), ALIGN_UP(entry.length, PAGE_SIZE));
         }
     }
 

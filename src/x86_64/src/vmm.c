@@ -27,7 +27,7 @@ static uint64_t vmm_get_pml_alloc(pml_t *pml, size_t index, bool user)
             halt();
         }
 
-        __builtin_memset((void *) new_entry, 0, PAGE_SIZE);
+        __builtin_memset((void *) (new_entry + loader_get_hhdm()), 0, PAGE_SIZE);
         pml->entries[index] = pml_make_entry(new_entry, user);
 
         return new_entry + loader_get_hhdm();
@@ -44,7 +44,6 @@ static void vmm_map_page(pml_t *pml, uint64_t virt, uint64_t phys, bool user)
     {
         last_entry = (pml_t *) vmm_get_pml_alloc(last_entry, PMLX_GET_INDEX(virt, i), true);
     }
-
 
     last_entry->entries[PMLX_GET_INDEX(virt, 0)] = pml_make_entry(phys, user);
 
