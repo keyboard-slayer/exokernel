@@ -14,7 +14,7 @@ LINK_SCRIPT = src/linker.ld
 
 CFLAGS =							\
 	-nostdlib						\
-	-std=c99						\
+	-std=c17						\
 	-fbuiltin						\
 	-pedantic						\
 	-Wpedantic						\

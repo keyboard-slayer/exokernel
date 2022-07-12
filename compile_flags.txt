@@ -1,6 +1,6 @@
 -nostdlib	
 -fno-builtin
--std=c99
+-std=c17
 -pedantic	
 -Wpedantic	
 -Werror		

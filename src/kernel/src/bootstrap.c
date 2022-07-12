@@ -4,7 +4,6 @@
 int _start(void)
 {
     arch_init();
-    pmm_init();
     for (;;);
 
     __builtin_unreachable();

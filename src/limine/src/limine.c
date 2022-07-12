@@ -14,6 +14,11 @@ volatile struct limine_memmap_request memmap_request = {
     .revision = 0,
 };
 
+volatile struct limine_kernel_address_request kernel_address_request = {
+    .id = LIMINE_KERNEL_ADDRESS_REQUEST,
+    .revision = 0,
+};
+
 static memmaps_t memmaps = {0};
 
 memmaps_t *loader_get_memmap(void)
@@ -49,4 +54,24 @@ uint64_t loader_get_hhdm(void)
     }
 
     return hhdm_request.response->offset;
+}
+
+uint64_t loader_get_pbase(void)
+{
+    if (kernel_address_request.response == NULL)
+    {
+        return 0;
+    }
+
+    return kernel_address_request.response->physical_base;
+}
+
+uint64_t loader_get_vbase(void)
+{
+    if (kernel_address_request.response == NULL)
+    {
+        return 0;
+    }
+
+    return kernel_address_request.response->virtual_base;
 }
