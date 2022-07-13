@@ -1,6 +1,8 @@
 #include "../inc/regs.h"
+#include "../inc/madt.h"
 
 #include <kernel/inc/logging.h>
+#include <kernel/inc/com.h>
 
 static char *exception_messages[32] = {
     "Division By Zero",
@@ -79,6 +81,20 @@ uint64_t interrupts_handler(uint64_t rsp)
             __asm__ volatile ("hlt");
         }
     }
+    else if (regs->intno < 48)
+    {
+        uint8_t irq = regs->intno - 32;
 
+        switch(irq)
+        {
+            case 0:
+            {
+                // Timer
+                break;
+            }
+        }
+    }
+
+    lapic_eoi();
     return rsp;
 }

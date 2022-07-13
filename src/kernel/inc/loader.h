@@ -44,5 +44,6 @@ memmaps_t *loader_get_memmap(void);
 uint64_t loader_get_hhdm(void);
 uint64_t loader_get_pbase(void);
 uint64_t loader_get_vbase(void);
+void *loader_get_rsdp(void);
 
 #endif /* !KERNEL_INC_LOADER_H_ */

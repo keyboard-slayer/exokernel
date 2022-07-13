@@ -24,6 +24,11 @@ volatile struct limine_smp_request smp_request = {
     .revision = 0,
 };
 
+volatile struct limine_rsdp_request rsdp_request = {
+    .id = LIMINE_RSDP_REQUEST,
+    .revision = 0,
+};
+
 static memmaps_t memmaps = {0};
 
 memmaps_t *loader_get_memmap(void)
@@ -79,4 +84,14 @@ uint64_t loader_get_vbase(void)
     }
 
     return kernel_address_request.response->virtual_base;
+}
+
+void *loader_get_rsdp(void)
+{
+    if (rsdp_request.response == NULL)
+    {
+        return NULL;
+    }
+
+    return rsdp_request.response->address;
 }
