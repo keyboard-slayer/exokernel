@@ -10,8 +10,6 @@ ARCH ?= x86_64
 BIOS ?= /usr/share/ovmf/x64/OVMF.fd
 SYSROOT ?= ./sysroot
 
-LINK_SCRIPT = src/linker.ld
-
 CFLAGS =							\
 	-nostdlib						\
 	-std=c17						\
@@ -47,14 +45,13 @@ QEMU_FLAGS =												\
 include src/$(ARCH)/.build.mk
 include src/$(LOADER)/.build.mk
 include src/kernel/.build.mk
-
-LDFLAGS += -T$(LINK_SCRIPT)
+include src/test/.build.mk
 
 run: sysroot
 	$(QEMU) $(QEMU_FLAGS)
 
 sysroot: $(KERNEL) $(LOADER_FILE)
-	mkdir -p $(SYSROOT)/boot
+	mkdir -p $(SYSROOT)/boot $(SYSROOT)/bin
 	cp $(KERNEL) $(SYSROOT)/boot
 
 clean:

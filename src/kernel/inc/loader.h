@@ -45,5 +45,6 @@ uint64_t loader_get_hhdm(void);
 uint64_t loader_get_pbase(void);
 uint64_t loader_get_vbase(void);
 void *loader_get_rsdp(void);
+void *loader_get_module(char const *name);
 
 #endif /* !KERNEL_INC_LOADER_H_ */

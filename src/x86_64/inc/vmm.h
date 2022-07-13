@@ -54,14 +54,6 @@ typedef struct
     pml_entry_t entries[512];
 } __attribute__((packed)) pml_t;
 
-
-typedef struct 
-{
-    uintptr_t physical;
-    uintptr_t virtual;
-    uintptr_t length;
-} virtual_physical_map_t;
-
 void vmm_init(void);
 
 #endif /* !ARCH_X86_64_INC_VMM_H_ */

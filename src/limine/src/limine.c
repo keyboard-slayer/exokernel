@@ -29,6 +29,11 @@ volatile struct limine_rsdp_request rsdp_request = {
     .revision = 0,
 };
 
+volatile struct limine_module_request module_request = {
+    .id = LIMINE_MODULE_REQUEST,
+    .revision = 0,
+};
+
 static memmaps_t memmaps = {0};
 
 memmaps_t *loader_get_memmap(void)
@@ -94,4 +99,22 @@ void *loader_get_rsdp(void)
     }
 
     return rsdp_request.response->address;
+}
+
+void *loader_get_module(char const *name)
+{
+    if (module_request.response == NULL)
+    {
+        return NULL;
+    }
+
+    for (size_t i = 0; i < module_request.response->module_count; i++)
+    {
+        if (__builtin_memcmp(module_request.response->modules[i]->path, name, __builtin_strlen(name)) == 0)
+        {
+            return module_request.response->modules[i]->address;
+        }
+    }
+
+    return NULL;
 }

@@ -57,8 +57,10 @@ void vmm_switch_space(pml_t *space)
     UNLOCK(vmm);
 }
 
-static void vmm_map(pml_t *pml, virtual_physical_map_t map, bool user)
+void vmm_map(void *pmlptr, virtual_physical_map_t map, bool user)
 {
+    pml_t *pml = pmlptr;
+
     if (map.physical % PAGE_SIZE != 0 || map.virtual % PAGE_SIZE != 0 || map.length % PAGE_SIZE != 0)
     {
         klog(ERROR, "Can't map a non-page-aligned region");
@@ -118,4 +120,17 @@ void vmm_init(void)
     vmm_switch_space(kernel_pml4);
     klog(OK, "VMM initialized.");
     return;
+}
+
+void *vmm_create_space(void)
+{
+    pml_t *space = (pml_t *) ((uintptr_t) pmm_alloc(PAGE_SIZE) + loader_get_hhdm());
+    __builtin_memset(space, 0, PAGE_SIZE);
+
+    for (size_t i = 255; i < 512; i++)
+    {
+        space->entries[i] = kernel_pml4->entries[i];
+    }
+
+    return (void *) space;
 }

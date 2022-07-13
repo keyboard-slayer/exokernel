@@ -3,6 +3,27 @@
 
 #include <stdint.h>
 
+enum rflags 
+{
+    RFLAGS_CF = 1 << 0,
+    RFLAGS_PF = 1 << 2,
+    RFLAGS_AF = 1 << 4,
+    RFLAGS_ZF = 1 << 6,
+    RFLAGS_SF = 1 << 7,
+    RFLAGS_TF = 1 << 8,
+    RFLAGS_IF = 1 << 9,
+    RFLAGS_DF = 1 << 10,
+    RFLAGS_OF = 1 << 11,
+    RFLAGS_IOPL = 3 << 12,
+    RFLAGS_NT = 1 << 14,
+    RFLAGS_RF = 1 << 16,
+    RFLAGS_VM = 1 << 17,
+    RFLAGS_AC = 1 << 18,
+    RFLAGS_VIF = 1 << 19,
+    RFLAGS_VIP = 1 << 20,
+    RFLAGS_ID = 1 << 21,
+};
+
 typedef struct
 {
     uint64_t r15;

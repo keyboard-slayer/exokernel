@@ -1,5 +1,5 @@
 LOADER_FILE = $(SYSROOT)/EFI/BOOT/BOOTX64.EFI
-LINK_SCRIPT = src/limine/linker.ld
+KERNEL_LDFLAGS = -Tsrc/limine/linker.ld
 KERNEL_SRC += $(wildcard src/limine/src/*.c)
 VER = 3.10.5
 

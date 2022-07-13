@@ -1,4 +1,5 @@
 KERNEL = $(BUILD)/kernel.elf
+KERNEL_BUILD = $(BUILD)/kernel
 
 KERNEL_CFLAGS = 					\
 	$(CFLAGS)						\
@@ -13,7 +14,7 @@ KERNEL_CFLAGS = 					\
 	-DSTB_SPRINTF_IMPLEMENTATION	\
 	-Isrc/
 
-KERNEL_LDFLAGS =					\
+KERNEL_LDFLAGS +=					\
 	$(LDFLAGS)						\
 	-z max-page-size=0x1000
 
@@ -21,15 +22,14 @@ KERNEL_SRC += 						\
 	$(wildcard src/kernel/src/*.c)	\
 	$(wildcard src/kernel/src/liballoc/*.c)
 
-KERNEL_OBJ := $(patsubst %, $(BUILD)/%.o, $(KERNEL_SRC))
-
+KERNEL_OBJ := $(patsubst %, $(KERNEL_BUILD)/%.o, $(KERNEL_SRC))
 DEPENDENCIES += $(KERNEL_OBJ:.o=.d)
 
-$(BUILD)/%.c.o: %.c
+$(KERNEL_BUILD)/%.c.o: %.c
 	@$(MKCWD)
 	$(CC) -c -o $@ $< $(KERNEL_CFLAGS)
 
-$(BUILD)/%.s.o: %.s
+$(KERNEL_BUILD)/%.s.o: %.s
 	@$(MKCWD)
 	$(AS) -o $@ $< $(ASFLAGS)
 
