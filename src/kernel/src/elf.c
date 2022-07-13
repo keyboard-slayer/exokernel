@@ -33,6 +33,7 @@ binary_context_t loader_binary(void *elf)
     {
         if (program_header[i].p_type == PT_LOAD)
         {
+            klog(INFO, "Loading Pheader %p -> %p", program_header[i].p_vaddr, program_header[i].p_vaddr + program_header[i].p_memsz);
             void *addr = pmm_alloc(ALIGN_UP(program_header[i].p_memsz, PAGE_SIZE));
 
             if (addr == NULL)
@@ -51,8 +52,9 @@ binary_context_t loader_binary(void *elf)
             __builtin_memcpy((void *)((uint64_t) addr + loader_get_hhdm() + program_header[i].p_filesz), (void *)((uint64_t)elf + program_header[i].p_offset + program_header[i].p_filesz), program_header[i].p_memsz - program_header[i].p_filesz);
         }
 
-        program_header = (Elf64_Phdr *)((uint64_t)program_header + header->e_phentsize);
+        program_header = (Elf64_Phdr *)((uint64_t)program_header + (i * header->e_phentsize));
     }
 
+    klog(INFO, "Entry point: %p", header->e_entry);
     return context_create(header->e_entry, space);
 }

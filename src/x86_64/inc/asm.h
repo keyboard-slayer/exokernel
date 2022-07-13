@@ -3,6 +3,10 @@
 
 #include <stdint.h>
 
+#define MSR_GS_BASE 0xC0000101
+#define MSR_KERN_GS_BASE 0xc0000102
+
+
 static inline void asm_write_msr(uint64_t msr, uint64_t value)
 {
     uint32_t low = value & 0xFFFFFFFF;

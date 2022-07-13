@@ -30,12 +30,16 @@ static void com_puts(char const *s)
     {
         com_putc(*s++);
     }
+
+    return;
 }
 
 int _start(void)
 {
     com_puts("Hello, World !\n");
+    com_puts("It works !\n");
 
     for (;;);
+
     __builtin_unreachable();
 }

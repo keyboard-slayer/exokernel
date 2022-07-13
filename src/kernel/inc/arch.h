@@ -33,5 +33,9 @@ void arch_init(void);
 void *vmm_create_space(void);
 void vmm_map(void *pml, virtual_physical_map_t map, bool user);
 binary_context_t context_create(uintptr_t ip, void *space);
+void context_switch(binary_context_t ctx);
+void context_save(regs_t *regs);
+void switch_registers(regs_t *regs);
+void *vmm_get_kernel_pml(void);
 
 #endif /* !_KERNEL_INC_ARCH_H_ */

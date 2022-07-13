@@ -55,5 +55,6 @@ typedef struct
 } __attribute__((packed)) pml_t;
 
 void vmm_init(void);
+void vmm_switch_space(pml_t *space);
 
 #endif /* !ARCH_X86_64_INC_VMM_H_ */

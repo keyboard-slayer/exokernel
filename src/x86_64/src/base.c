@@ -13,7 +13,6 @@ void arch_init(void)
 {
     gdt_init();
     idt_init();
-    __asm__ volatile("sti");
     pmm_init();
     vmm_init();
     acpi_init();
@@ -23,4 +22,6 @@ void arch_init(void)
     pic_disable();
     apic_init();
     syscall_init();
+    intstack_init();
+    __asm__ volatile("sti");
 }

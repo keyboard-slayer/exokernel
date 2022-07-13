@@ -3,6 +3,8 @@
 
 #include <kernel/inc/logging.h>
 #include <kernel/inc/com.h>
+#include <kernel/inc/arch.h>
+#include <kernel/inc/sched.h>
 
 static char *exception_messages[32] = {
     "Division By Zero",
@@ -73,6 +75,7 @@ uint64_t interrupts_handler(uint64_t rsp)
 
     if (regs->intno < 32)
     {
+        __asm__ volatile ("cli");
         output_exception(regs);
 
         for(;;)
@@ -89,7 +92,7 @@ uint64_t interrupts_handler(uint64_t rsp)
         {
             case 0:
             {
-                // Timer
+                sched_yield(regs);
                 break;
             }
         }

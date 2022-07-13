@@ -21,7 +21,7 @@ CFLAGS =							\
 	-Wall							\
 	-ggdb							\
 	-fno-stack-protector			\
-	-Os								\
+	-O0								\
 	-D__$(ARCH)__
 
 ASFLAGS =							\
@@ -41,7 +41,7 @@ QEMU_FLAGS =												\
 	-bios $(BIOS)											\
 	-drive file=fat:rw:sysroot,media=disk,format=raw		\
 	-enable-kvm												\
-
+	
 include src/$(ARCH)/.build.mk
 include src/$(LOADER)/.build.mk
 include src/kernel/.build.mk

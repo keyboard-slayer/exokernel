@@ -1,4 +1,6 @@
 #include "../inc/gdt.h"
+
+#include <kernel/inc/arch.h>
 #include <kernel/inc/logging.h>
 
 static gdt_t gdt;
@@ -7,6 +9,8 @@ static gdt_descriptor_t gdt_descriptor = {
     .limit = sizeof(gdt_t) - 1,
     .base = (uint64_t)&gdt,
 };
+
+extern void *malloc(size_t);
 
 static tss_t tss;
 
@@ -65,4 +69,11 @@ void gdt_init(void)
     klog(OK, "GDT initialized.");
     tss_flush();
     klog(OK, "TSS initialized.");
+}
+
+void intstack_init(void)
+{
+    tss.ist[0] = (uint64_t) malloc(STACK_SIZE) + STACK_SIZE;
+    tss.ist[1] = (uint64_t) malloc(STACK_SIZE) + STACK_SIZE;
+    tss.rsp[0] = (uint64_t) malloc(STACK_SIZE) + STACK_SIZE;
 }

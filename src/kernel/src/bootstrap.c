@@ -3,10 +3,12 @@
 #include "../inc/pmm.h"
 #include "../inc/logging.h"
 #include "../inc/elf.h"
+#include "../inc/sched.h"
 
 int _start(void)
 {
     arch_init();
+    sched_init();
 
     void *executable = loader_get_module("/bin/test.elf");
     if (executable == NULL)
@@ -15,7 +17,8 @@ int _start(void)
         halt();
     }
 
-    __attribute__((unused)) binary_context_t bin = loader_binary(executable);
+    binary_context_t bin = loader_binary(executable);
+    sched_push(bin);
 
     for (;;);
 

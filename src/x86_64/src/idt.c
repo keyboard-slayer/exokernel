@@ -26,10 +26,11 @@ void idt_init(void)
 {
     klog(INFO, "Initializing IDT...");
 
-    for (int i = 0; i < 48; i++)
+    for (int i = 0; i < 49; i++)
     {
         idt_init_entry(&idt_entries[i], __interrupt_vector[i], INT_TRAP_GATE);
     }
+
 
     idt_flush((uint64_t) &idt);
     klog(OK, "IDT initialized.");

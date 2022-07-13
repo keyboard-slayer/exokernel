@@ -134,3 +134,8 @@ void *vmm_create_space(void)
 
     return (void *) space;
 }
+
+void *vmm_get_kernel_pml(void)
+{
+    return (void *) kernel_pml4;
+}

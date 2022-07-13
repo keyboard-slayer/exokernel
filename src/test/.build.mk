@@ -13,4 +13,4 @@ $(TEST): $(TEST_OBJ)
 
 test: $(TEST)
 	cp $(TEST) $(SYSROOT)/bin/test.elf
-	@echo -ne "\nMODULE_PATH=boot:///bin/test.elf\nMODULE_STRING=test\n" >> $(SYSROOT)/boot/limine.cfg
+	@echo "\nMODULE_PATH=boot:///bin/test.elf\nMODULE_STRING=test\n" >> $(SYSROOT)/boot/limine.cfg
