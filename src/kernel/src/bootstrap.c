@@ -19,6 +19,7 @@ int _start(void)
 
     binary_context_t bin = loader_binary(executable);
     sched_push(bin);
+    switch_task();
 
     for (;;);
 

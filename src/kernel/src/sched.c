@@ -5,9 +5,6 @@
 static binary_context_t to_switch = {0};
 static binary_context_t current = {0};
 
-static uint8_t tick = 0;
-
-#define SCHED_QUANTUM 8 
 
 void sched_init(void)
 {
@@ -16,24 +13,20 @@ void sched_init(void)
 
 void sched_yield(regs_t *regs)
 {
-    if (tick++ >= SCHED_QUANTUM)
+    current.regs = *regs;
+
+    if (to_switch.space == NULL)
     {
-        tick = 0;
-        current.regs = *regs;
-
-        if (to_switch.space == NULL)
-        {
-            return;
-        }
-
-        binary_context_t tmp = current;
-        current = to_switch;
-        to_switch = tmp;
-
-        context_switch(current);
-        vmm_switch_space(current.space);
-        *regs = current.regs;
+        return;
     }
+
+    binary_context_t tmp = current;
+    current = to_switch;
+    to_switch = tmp;
+
+    context_switch(current);
+    vmm_switch_space(current.space);
+    *regs = current.regs;
 }
 
 void sched_push(binary_context_t ctx)

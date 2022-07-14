@@ -37,5 +37,6 @@ void context_switch(binary_context_t ctx);
 void context_save(regs_t *regs);
 void switch_registers(regs_t *regs);
 void *vmm_get_kernel_pml(void);
+void switch_task(void);
 
 #endif /* !_KERNEL_INC_ARCH_H_ */

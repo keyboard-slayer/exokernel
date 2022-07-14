@@ -92,10 +92,13 @@ uint64_t interrupts_handler(uint64_t rsp)
         {
             case 0:
             {
-                sched_yield(regs);
                 break;
             }
         }
+    } 
+    else if(regs->intno == 48)
+    {
+        sched_yield(regs);
     }
 
     lapic_eoi();
