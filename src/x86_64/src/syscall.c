@@ -9,6 +9,8 @@
 #include <stdint.h>
 
 typedef int64_t (*syscall_t)(regs_t *);
+typedef void (*handler_t)(void);
+typedef void (*prehandler_t)(handler_t, handler_t);
 
 void syscall_init(void)
 {
@@ -22,16 +24,21 @@ void syscall_init(void)
 
 int64_t syscall_reg_handler(regs_t *regs)
 {
-    klog(INFO, "OK");
-    binary_context_t *ctx = sched_current();
-    klog(INFO, "%p", ((uintptr_t *) ctx->syscall_user_stack)[0]);
-    ctx->handlers[regs->rbx] = (void (*)(void)) regs->rcx;
+    task_t *task = sched_current();
+    task->handlers[regs->rdx] = (void(*)(void)) regs->rbx;
+    return 0;
+}
 
+int64_t syscall_reg_prehandler(regs_t *regs)
+{
+    task_t *task = sched_current();
+    task->prehandler = (prehandler_t) regs->rbx;
     return 0;
 }
 
 syscall_t kernel_matrix[] = {
-    [SYS_REG_HANDLER] = syscall_reg_handler
+    [SYS_REG_HANDLER] = syscall_reg_handler,
+    [SYS_REG_PREHANDLER] = syscall_reg_prehandler
 };
 
 int64_t syscall_handler(regs_t *regs)
@@ -40,8 +47,6 @@ int64_t syscall_handler(regs_t *regs)
     {
         kernel_matrix[regs->rax * -1](regs);
     }
-
-    klog(INFO, "No");
 
     return 0;
 }

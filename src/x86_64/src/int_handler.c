@@ -1,5 +1,6 @@
 #include "../inc/regs.h"
 #include "../inc/madt.h"
+#include "kernel/inc/loader.h"
 
 #include <kernel/inc/logging.h>
 #include <kernel/inc/com.h>
@@ -72,12 +73,13 @@ static void output_exception(regs_t const *regs)
 uint64_t interrupts_handler(uint64_t rsp)
 {
     regs_t *regs = (regs_t *) rsp;
-    binary_context_t *task_ctx = sched_current();
+    task_t *task = sched_current();
 
-    if (task_ctx != NULL && task_ctx->handlers[regs->intno] != NULL)
+    if (task != NULL && task->handlers[regs->intno] != NULL)
     {
-        // uint64_t current_rip = regs->rip;
-        regs->rip = (uint64_t) task_ctx->handlers[regs->intno];
+        regs->rip = (uint64_t) task->prehandler;
+        regs->rdi = regs->rip;
+        regs->rsi = (uint64_t) task->handlers[regs->intno];
     }
     else if (regs->intno < 32)
     {

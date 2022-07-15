@@ -50,7 +50,7 @@ static void vmm_map_page(pml_t *pml, uint64_t virt, uint64_t phys, bool user)
     UNLOCK(vmm);
 }
 
-void vmm_switch_space(pml_t *space)
+void vmm_switch_space(void *space)
 {
     LOCK(vmm);
     __asm__ volatile ("mov %0, %%cr3" :: "r"(((uintptr_t) space) - loader_get_hhdm()));

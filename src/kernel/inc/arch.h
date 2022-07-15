@@ -26,16 +26,14 @@ typedef struct
     uintptr_t syscall_kernel_bstack;
 
     regs_t regs;
-    void *space;
-    void *stack;
-    void (*handlers[256])(void);
-} binary_context_t;
+} context_t;
 
 void arch_init(void);
 void *vmm_create_space(void);
 void vmm_map(void *pml, virtual_physical_map_t map, bool user);
-binary_context_t context_create(uintptr_t ip, void *space);
-void context_switch(binary_context_t *ctx, regs_t *regs);
+void vmm_switch_space(void *pml);
+context_t context_create(uintptr_t ip);
+void context_switch(context_t *ctx, regs_t *regs);
 void switch_registers(regs_t *regs);
 void *vmm_get_kernel_pml(void);
 void switch_task(void);

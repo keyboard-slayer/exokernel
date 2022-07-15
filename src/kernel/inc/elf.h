@@ -2,6 +2,7 @@
 #define _KERNEL_INC_ELF_H_
 
 #include "arch.h"
+#include "sched.h"
 #include <stdint.h>
 
 #define ELFMAG0 0x7F
@@ -85,6 +86,6 @@ typedef struct
     Elf64_Xword     p_align;
 } Elf64_Phdr;
 
-binary_context_t loader_binary(void *elf);
+task_t *loader_binary(void *elf);
 
 #endif /* !_KERNEL_INC_ELF_H_ */

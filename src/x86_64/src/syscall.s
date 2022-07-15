@@ -1,3 +1,5 @@
+;; Code from https://supercip971.github.io/02-wingos-syscalls.html
+
 [BITS 64]
 
 %macro push_all 0
@@ -39,23 +41,18 @@
 
 %endmacro
 
-ALIGN 4096
+ALIGN	4096
 global syscall_handle
 syscall_handle:
     swapgs               ; swap from USER gs to KERNEL gs
     mov [gs:0x8], rsp    ; save current stack to the local cpu structure
     mov rsp, [gs:0x0]    ; use the kernel syscall stack
 
-    sti
-
     push qword 0x1b      ; user data
     push qword [gs:0x8]  ; saved stack
     push r11             ; saved rflags
-    push qword 0x18      ; user code
+    push qword 0x23      ; user code
     push rcx             ; current IP
-
-    push qword 0
-    push qword 0
 
     cld
     push_all
@@ -68,7 +65,6 @@ syscall_handle:
 
     pop_all              ; pop everything except rax because we use it for the return value
 
-    cli
     mov rsp, [gs:0x8]    ; return to the user stack
     swapgs
     o64 sysret

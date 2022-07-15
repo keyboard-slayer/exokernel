@@ -1,16 +1,16 @@
 #include "../inc/com.h"
 #include "../inc/syscall.h"
 
+#define IRQ(x) (x + 32)
 
-void timer_handler(void)
+void key_event(void)
 {
-    com_puts("Tick !\n");
     return;
 }
 
-int _start(void)
+int main(void)
 {
-    syscall(SYS_REG_HANDLER, (uint64_t) timer_handler, 32);
+    syscall(SYS_REG_HANDLER, (uint64_t) key_event, IRQ(1));
 
     com_puts("Hello, World !\n");
     com_puts("It works !\n");

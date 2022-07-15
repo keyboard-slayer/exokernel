@@ -6,14 +6,14 @@
 #include "../inc/gdt.h"
 #include "../inc/asm.h"
 #include "../inc/vmm.h"
+#include "kernel/inc/loader.h"
 
 extern void *malloc(size_t);
 
-binary_context_t context_create(uintptr_t ip, void *space)
+context_t context_create(uintptr_t ip)
 {
-    binary_context_t ret;
+    context_t ret;
 
-    ret.space = space;
     ret.regs = (regs_t) {0};
     ret.regs.rip = ip;
     ret.regs.rsp = USER_STACK_BASE + STACK_SIZE;
@@ -21,31 +21,26 @@ binary_context_t context_create(uintptr_t ip, void *space)
     ret.regs.rflags = 0x202 | RFLAGS_IOPL;
     ret.regs.cs = (GDT_USER_CODE * 8) | 3;
     ret.regs.ss = (GDT_USER_DATA * 8) | 3;
-    ret.stack = pmm_alloc(STACK_SIZE);
 
-    ret.syscall_kernel_bstack = (uintptr_t) malloc(STACK_SIZE);
+    ret.syscall_kernel_bstack = (uintptr_t) pmm_alloc(STACK_SIZE) + loader_get_hhdm();
     ret.syscall_kernel_stack = ret.syscall_kernel_bstack + STACK_SIZE;
 
-    __builtin_memset(ret.handlers, 0, sizeof(void (*)(void)) * 256);
+    vmm_map(vmm_get_kernel_pml(), (virtual_physical_map_t) {
+        .physical = ret.syscall_kernel_bstack,
+        .virtual = ret.syscall_kernel_bstack + loader_get_hhdm(),
+        .length = STACK_SIZE
+    }, true);
 
-    if (ret.syscall_kernel_bstack == 0 || ret.stack == 0)
+    if (ret.syscall_kernel_bstack == 0)
     {
         klog(ERROR, "Failed to allocate stack for context");
         halt();
     }
 
-    vmm_map(
-        space, (virtual_physical_map_t) {
-            .physical = ALIGN_DOWN((uintptr_t) ret.stack, PAGE_SIZE),
-            .virtual = USER_STACK_BASE,
-            .length = STACK_SIZE,
-        }, true
-    );
-
     return ret;
 }
 
-void context_switch(binary_context_t *ctx, regs_t *regs)
+void context_switch(context_t *ctx, regs_t *regs)
 {
     asm_write_msr(MSR_GS_BASE, (uintptr_t) ctx);
     asm_write_msr(MSR_KERN_GS_BASE, (uintptr_t) ctx);

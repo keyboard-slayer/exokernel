@@ -4,10 +4,13 @@
 #include "../inc/utils.h"
 #include "../inc/pmm.h"
 #include "../inc/loader.h"
+#include "../inc/sched.h"
 
 #include <stddef.h>
 
-binary_context_t loader_binary(void *elf)
+extern void *calloc(size_t, size_t);
+
+task_t *loader_binary(void *elf)
 {
     Elf64_Ehdr *header = elf;
     
@@ -56,5 +59,6 @@ binary_context_t loader_binary(void *elf)
     }
 
     klog(INFO, "Entry point: %p", header->e_entry);
-    return context_create(header->e_entry, space);
+
+    return create_task(space, header->e_entry);
 }

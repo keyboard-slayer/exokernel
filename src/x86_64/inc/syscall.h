@@ -14,7 +14,8 @@
 #define MSR_KERN_GS_BASE 0xc0000102
 
 enum KSYSCALL {
-    SYS_REG_HANDLER
+    SYS_REG_HANDLER = 1,
+    SYS_REG_PREHANDLER = 2
 };
 
 extern void syscall_handle(void);

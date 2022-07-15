@@ -17,7 +17,7 @@ int _start(void)
         halt();
     }
 
-    binary_context_t bin = loader_binary(executable);
+    task_t *bin = loader_binary(executable);
     sched_push(bin);
     switch_task();
 

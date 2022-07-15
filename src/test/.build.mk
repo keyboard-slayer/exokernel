@@ -1,5 +1,5 @@
 TEST = $(BUILD)/test.elf
-TEST_SRC = $(wildcard src/test/src/*.c)
+TEST_SRC = $(wildcard src/test/src/*.c) src/runtime/crt0.c
 BUILD_TEST = $(BUILD)/test
 TEST_OBJ = $(patsubst %, $(BUILD_TEST)/%.o, $(TEST_SRC))
 
@@ -13,4 +13,4 @@ $(TEST): $(TEST_OBJ)
 
 test: $(TEST)
 	cp $(TEST) $(SYSROOT)/bin/test.elf
-	@echo "\nMODULE_PATH=boot:///bin/test.elf\nMODULE_STRING=test\n" >> $(SYSROOT)/boot/limine.cfg
+	@echo -e "\nMODULE_PATH=boot:///bin/test.elf\nMODULE_STRING=test\n" >> $(SYSROOT)/boot/limine.cfg
