@@ -7,8 +7,6 @@
 
 #include <stdint.h>
 
-
-
 void syscall_init(void)
 {
     klog(OK, "Initializing system calls");
@@ -22,5 +20,6 @@ void syscall_init(void)
 int64_t syscall_handler(regs_t *regs)
 {
     (void) regs;
-    return 0;
+    klog(INFO, "Syscall %d", regs->rax);
+    return regs->rip;
 }

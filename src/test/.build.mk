@@ -1,5 +1,5 @@
 TEST = $(BUILD)/test.elf
-TEST_SRC = src/test/main.c
+TEST_SRC = $(wildcard src/test/src/*.c)
 BUILD_TEST = $(BUILD)/test
 TEST_OBJ = $(patsubst %, $(BUILD_TEST)/%.o, $(TEST_SRC))
 

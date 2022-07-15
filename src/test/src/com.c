@@ -1,6 +1,6 @@
-#define COM_PORT 0X3F8
-
 #include <stdint.h>
+
+#include "../inc/com.h"
 
 static uint8_t asm_in8(uint16_t port)
 {
@@ -18,13 +18,13 @@ static void asm_out8(uint16_t port, uint8_t data)
                  : "a"(data), "d"(port));
 }
 
-static void com_putc(char c)
+void com_putc(char c)
 {
     while ((asm_in8(COM_PORT + 5) & 0x20) == 0);
     asm_out8(COM_PORT, c);
 }
 
-static void com_puts(char const *s)
+void com_puts(char const *s)
 {
     while (*s)
     {
@@ -32,14 +32,4 @@ static void com_puts(char const *s)
     }
 
     return;
-}
-
-int _start(void)
-{
-    com_puts("Hello, World !\n");
-    com_puts("It works !\n");
-
-    for (;;);
-
-    __builtin_unreachable();
 }
