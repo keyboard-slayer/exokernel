@@ -77,8 +77,8 @@ uint64_t interrupts_handler(uint64_t rsp)
 
     if (task != NULL && task->handlers[regs->intno] != NULL)
     {
-        regs->rip = (uint64_t) task->prehandler;
         regs->rdi = regs->rip;
+        regs->rip = (uint64_t) task->prehandler;
         regs->rsi = (uint64_t) task->handlers[regs->intno];
     }
     else if (regs->intno < 32)
@@ -95,6 +95,7 @@ uint64_t interrupts_handler(uint64_t rsp)
     else if (regs->intno < 48)
     {
         uint8_t irq = regs->intno - 32;
+
 
         switch(irq)
         {

@@ -3,6 +3,8 @@
 
 #include "../inc/acpi.h"
 
+#include <stdbool.h>
+
 #define LAPIC_CPU_ID        0x020
 #define LAPIC_EOI           0x0b0
 #define LAPIC_SPURIOUS      0x0f0
@@ -26,10 +28,26 @@ typedef struct
     uint32_t flags;
 } __attribute__((packed)) madt_t;
 
+typedef struct 
+{
+    uint16_t madt_header;
+    uint8_t ioapic_id;
+    uint8_t reserved;
+    uint32_t ioapic_address;
+    uint32_t global_system_interrupt_base;
+} __attribute__((packed)) madt_ioapic_t;
+
+enum madt_entry 
+{
+    MADT_IOAPIC = 1,
+    MADT_ISO = 2
+};
+
 void apic_init(void);
 void lapic_eoi(void);
 int lapic_current_cpu(void);
 void lapic_init(void);
 void lapic_timer_init(void);
+void io_apic_setup_irq(uint8_t irq, bool enabled);
 
 #endif /* !ARCH_X86_64_MADT_H */

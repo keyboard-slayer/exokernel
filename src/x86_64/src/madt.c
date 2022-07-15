@@ -7,6 +7,8 @@
 #include <kernel/inc/loader.h>
 
 static uintptr_t lapic_addr;
+static uintptr_t ioapic_addr;
+static uint32_t gsib;
 
 static uint32_t lapic_read(uint32_t reg)
 {
@@ -30,6 +32,25 @@ void apic_init(void)
     acpi_checksum((acpi_sdt_t *) madt);
     lapic_addr = madt->lapic_address + loader_get_hhdm();
     klog(INFO, "LAPIC found at %p", lapic_addr);
+
+    uint8_t *ptr = (uint8_t *) madt + sizeof(madt_t);
+
+    while (ptr < ((uint8_t *) madt + madt->header.length))
+    {
+        switch (ptr[0])
+        {
+            case MADT_IOAPIC: 
+            {
+                madt_ioapic_t *ioapic = (madt_ioapic_t *) ptr;
+                ioapic_addr = ioapic->ioapic_address + loader_get_hhdm();
+                gsib = ioapic->global_system_interrupt_base;
+                klog(INFO, "IOAPIC found at %p", ioapic_addr);
+                break;
+            }
+        }
+
+        ptr += ptr[1];
+    }
 
     lapic_init();
     lapic_timer_init();
@@ -68,3 +89,30 @@ int lapic_current_cpu(void)
 {
     return lapic_read(LAPIC_CPU_ID) >> 24;
 }
+
+
+/* TODO: Rewrite with SMP later */
+
+static void io_apic_write(uint32_t reg, uint32_t data) 
+{
+    volatile uint32_t *base = (volatile uint32_t *) ioapic_addr;
+    *base = reg;
+    *(base + 4) = data;
+}
+
+
+void io_apic_setup_irq(uint8_t irq, bool enabled)
+{
+    uint64_t redirect = irq + 0x20;
+
+    if (!enabled)
+    {
+        redirect |= (1 << 16);
+    }
+
+    uint32_t ioredtbl = (irq - gsib) * 2 + 16; 
+    io_apic_write(ioredtbl, (uint32_t) redirect);
+    io_apic_write(ioredtbl + 1, (uint32_t) (redirect >> 32));
+}
+
+/* ====== */

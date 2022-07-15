@@ -21,6 +21,7 @@ void arch_init(void)
     pic_mask_interrupts();
     pic_disable();
     apic_init();
+    io_apic_setup_irq(1, true);
     syscall_init();
     intstack_init();
     __asm__ volatile ("sti");

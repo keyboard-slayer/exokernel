@@ -1,10 +1,13 @@
 #include "../inc/com.h"
 #include "../inc/syscall.h"
+#include "../inc/asm.h"
 
 #define IRQ(x) (x + 32)
 
 void key_event(void)
 {
+    com_puts("Key pressed\n");
+    asm_in8(0x60);
     return;
 }
 
