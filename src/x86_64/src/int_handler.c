@@ -72,8 +72,14 @@ static void output_exception(regs_t const *regs)
 uint64_t interrupts_handler(uint64_t rsp)
 {
     regs_t *regs = (regs_t *) rsp;
+    binary_context_t *task_ctx = sched_current();
 
-    if (regs->intno < 32)
+    if (task_ctx != NULL && task_ctx->handlers[regs->intno] != NULL)
+    {
+        // uint64_t current_rip = regs->rip;
+        regs->rip = (uint64_t) task_ctx->handlers[regs->intno];
+    }
+    else if (regs->intno < 32)
     {
         __asm__ volatile ("cli");
         output_exception(regs);

@@ -4,8 +4,11 @@
 #include "../inc/asm.h"
 
 #include <kernel/inc/logging.h>
+#include <kernel/inc/sched.h>
 
 #include <stdint.h>
+
+typedef int64_t (*syscall_t)(regs_t *);
 
 void syscall_init(void)
 {
@@ -17,9 +20,29 @@ void syscall_init(void)
     klog(OK, "System calls initialized");
 }
 
+int64_t syscall_reg_handler(regs_t *regs)
+{
+    klog(INFO, "OK");
+    binary_context_t *ctx = sched_current();
+    klog(INFO, "%p", ((uintptr_t *) ctx->syscall_user_stack)[0]);
+    ctx->handlers[regs->rbx] = (void (*)(void)) regs->rcx;
+
+    return 0;
+}
+
+syscall_t kernel_matrix[] = {
+    [SYS_REG_HANDLER] = syscall_reg_handler
+};
+
 int64_t syscall_handler(regs_t *regs)
 {
-    (void) regs;
-    klog(INFO, "Syscall %d", regs->rax);
-    return regs->rip;
+    if ((int64_t) regs->rax < 0)
+    {
+        kernel_matrix[regs->rax * -1](regs);
+    }
+
+    klog(INFO, "No");
+
+    return 0;
 }
+

@@ -10,7 +10,7 @@ void timer_handler(void)
 
 int _start(void)
 {
-    syscall(SYS_REG_HANDLER, (uint64_t) timer_handler);
+    syscall(SYS_REG_HANDLER, (uint64_t) timer_handler, 32);
 
     com_puts("Hello, World !\n");
     com_puts("It works !\n");

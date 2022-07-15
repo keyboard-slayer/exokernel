@@ -5,7 +5,6 @@
 static binary_context_t to_switch = {0};
 static binary_context_t current = {0};
 
-
 void sched_init(void)
 {
     current.space = vmm_get_kernel_pml();
@@ -24,12 +23,21 @@ void sched_yield(regs_t *regs)
     current = to_switch;
     to_switch = tmp;
 
-    context_switch(current);
+    context_switch(&current, regs);
     vmm_switch_space(current.space);
-    *regs = current.regs;
 }
 
 void sched_push(binary_context_t ctx)
 {
     to_switch = ctx;
+}
+
+binary_context_t *sched_current(void)
+{
+    if (current.space == NULL)
+    {
+        return NULL;
+    }
+
+    return &current;
 }
