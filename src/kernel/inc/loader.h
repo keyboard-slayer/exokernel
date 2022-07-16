@@ -46,5 +46,6 @@ uint64_t loader_get_pbase(void);
 uint64_t loader_get_vbase(void);
 void *loader_get_rsdp(void);
 void *loader_get_module(char const *name);
+void loader_boot_other_cpus(void);
 
 #endif /* !KERNEL_INC_LOADER_H_ */

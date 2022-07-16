@@ -1,6 +1,7 @@
 #include "../inc/regs.h"
 #include "../inc/madt.h"
-#include "kernel/inc/loader.h"
+#include "../inc/asm.h"
+#include "../inc/vmm.h"
 
 #include <kernel/inc/logging.h>
 #include <kernel/inc/com.h>
@@ -73,15 +74,8 @@ static void output_exception(regs_t const *regs)
 uint64_t interrupts_handler(uint64_t rsp)
 {
     regs_t *regs = (regs_t *) rsp;
-    task_t *task = sched_current();
 
-    if (task != NULL && task->handlers[regs->intno] != NULL)
-    {
-        regs->rdi = regs->rip;
-        regs->rip = (uint64_t) task->prehandler;
-        regs->rsi = (uint64_t) task->handlers[regs->intno];
-    }
-    else if (regs->intno < 32)
+    if (regs->intno < 32)
     {
         __asm__ volatile ("cli");
         output_exception(regs);
@@ -96,7 +90,6 @@ uint64_t interrupts_handler(uint64_t rsp)
     {
         uint8_t irq = regs->intno - 32;
 
-
         switch(irq)
         {
             case 0:
@@ -105,10 +98,6 @@ uint64_t interrupts_handler(uint64_t rsp)
             }
         }
     } 
-    else if(regs->intno == 48)
-    {
-        sched_yield(regs);
-    }
 
     lapic_eoi();
     return rsp;

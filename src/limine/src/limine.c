@@ -4,6 +4,9 @@
 #include <kernel/inc/loader.h>
 #include <kernel/inc/logging.h>
 
+#include <x86_64/inc/cpu.h>
+#include <x86_64/inc/madt.h>
+
 volatile struct limine_hhdm_request hhdm_request = {
     .id = LIMINE_HHDM_REQUEST,
     .revision = 0,
@@ -117,4 +120,29 @@ void *loader_get_module(char const *name)
     }
 
     return NULL;
+}
+
+void loader_boot_other_cpus(void)
+{
+    if (smp_request.response == NULL)
+    {
+        return;
+    }
+
+    init_cpus(smp_request.response->cpu_count);
+
+    for (size_t i = 0; i < smp_request.response->cpu_count; i++)
+    {
+        if (smp_request.response->cpus[i]->processor_id != (uint32_t) lapic_current_cpu())
+        {
+            smp_request.response->cpus[i]->goto_address = (limine_goto_address) _start_cpus;
+        }
+    }
+
+    while (cpu_get_ready() < cpu_get_count())
+    {
+        __asm__ volatile("pause");
+    }
+
+    klog(OK, "All CPUs booted");
 }

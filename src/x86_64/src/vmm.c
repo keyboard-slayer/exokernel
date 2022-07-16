@@ -9,7 +9,7 @@
 DECLARE_LOCK(vmm);
 static pml_t *kernel_pml4;
 
-static uint64_t vmm_get_pml_alloc(pml_t *pml, size_t index, bool user)
+static uint64_t vmm_get_pml_alloc(pml_t *pml, size_t index, bool user, bool alloc)
 {
     pml_entry_t entry = pml->entries[index];
 
@@ -17,7 +17,7 @@ static uint64_t vmm_get_pml_alloc(pml_t *pml, size_t index, bool user)
     {
         return (entry.physical << 12) + loader_get_hhdm();
     }
-    else  
+    else if (alloc)  
     {
         uint64_t new_entry = ((uint64_t) pmm_alloc(PAGE_SIZE));
 
@@ -32,6 +32,8 @@ static uint64_t vmm_get_pml_alloc(pml_t *pml, size_t index, bool user)
 
         return new_entry + loader_get_hhdm();
     }
+
+    return 0;
 }
 
 static void vmm_map_page(pml_t *pml, uint64_t virt, uint64_t phys, bool user)
@@ -42,7 +44,7 @@ static void vmm_map_page(pml_t *pml, uint64_t virt, uint64_t phys, bool user)
 
     for (size_t i = 3; i > 0; i--)
     {
-        last_entry = (pml_t *) vmm_get_pml_alloc(last_entry, PMLX_GET_INDEX(virt, i), true);
+        last_entry = (pml_t *) vmm_get_pml_alloc(last_entry, PMLX_GET_INDEX(virt, i), true, true);
     }
 
     last_entry->entries[PMLX_GET_INDEX(virt, 0)] = pml_make_entry(phys, user);
@@ -138,4 +140,31 @@ void *vmm_create_space(void)
 void *vmm_get_kernel_pml(void)
 {
     return (void *) kernel_pml4;
+}
+
+void *vmm_get_current_pml(void)
+{
+    uint64_t cr3;
+
+    LOCK(vmm);
+    __asm__ volatile ("mov %%cr3, %0":"=r" (cr3));
+    UNLOCK(vmm);
+
+    return (void *) (cr3 + loader_get_hhdm());
+}
+
+bool vmm_is_mapped(void *pml, uint64_t virt)
+{
+    pml_t *last_entry = pml;
+
+    for (size_t i = 3; i > 0; i--)
+    {
+        last_entry = (pml_t *) vmm_get_pml_alloc(last_entry, PMLX_GET_INDEX(virt, i), true, false);
+        if (last_entry == NULL)
+        {
+            return false;
+        }
+    }
+
+    return last_entry->entries[PMLX_GET_INDEX(virt, 0)].present;
 }

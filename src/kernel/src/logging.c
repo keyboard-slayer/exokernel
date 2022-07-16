@@ -3,6 +3,12 @@
 #include "../inc/stb_sprintf.h"
 #include "../inc/lock.h"
 
+#ifdef __x86_64__
+#include <x86_64/inc/madt.h>
+#define cpu_id lapic_current_cpu
+#endif
+
+
 DECLARE_LOCK(logging);
 
 static const char *log[] = {
@@ -17,7 +23,7 @@ void klog_impl(log_level_t level, char const *filename, size_t lineno, char cons
 
     if (level != NONE)
     {
-        stbsp_sprintf(buf, "%s\033[33m%s:%ld\033[0m ", log[level], filename, lineno);
+        stbsp_sprintf(buf, "%s\033[33mcore %d %s:%ld\033[0m ", log[level], cpu_id(), filename, lineno);
     }
 
     com_puts(buf);

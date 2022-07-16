@@ -6,7 +6,7 @@
 #include <kernel/inc/logging.h>
 #include <kernel/inc/loader.h>
 
-static uintptr_t lapic_addr;
+static uintptr_t lapic_addr = 0;
 static uintptr_t ioapic_addr;
 static uint32_t gsib;
 
@@ -87,6 +87,11 @@ void lapic_eoi(void)
 
 int lapic_current_cpu(void)
 {
+    if (lapic_addr == 0)
+    {
+        return 0;
+    }
+
     return lapic_read(LAPIC_CPU_ID) >> 24;
 }
 

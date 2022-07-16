@@ -7,7 +7,10 @@
 #include "../inc/pit.h"
 #include "../inc/pic.h"
 
+#include <kernel/inc/arch.h>
+#include <kernel/inc/logging.h>
 #include <kernel/inc/pmm.h>
+#include <kernel/inc/loader.h>
 
 void arch_init(void)
 {
@@ -21,9 +24,11 @@ void arch_init(void)
     pic_mask_interrupts();
     pic_disable();
     apic_init();
-    io_apic_setup_irq(1, true);
     syscall_init();
     intstack_init();
+
+    loader_boot_other_cpus();
+
     __asm__ volatile ("sti");
 }
 
