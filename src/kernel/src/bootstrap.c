@@ -19,7 +19,6 @@ int _start(void)
 
     task_t *bin = loader_binary(executable);
     sched_push(bin);
-    switch_task();
 
     for (;;);
 

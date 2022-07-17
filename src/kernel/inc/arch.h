@@ -38,6 +38,5 @@ void context_switch(context_t *ctx, regs_t *regs);
 void switch_registers(regs_t *regs);
 void *vmm_get_kernel_pml(void);
 void *vmm_get_current_pml(void);
-void switch_task(void);
 
 #endif /* !_KERNEL_INC_ARCH_H_ */

@@ -115,7 +115,6 @@ INTERRUPT_NOERR 44
 INTERRUPT_NOERR 45
 INTERRUPT_NOERR 46
 INTERRUPT_NOERR 47
-INTERRUPT_NOERR 48
 
 
 global __interrupt_vector
@@ -170,7 +169,6 @@ __interrupt_vector:
     INTERRUPT_NAME 45
     INTERRUPT_NAME 46
     INTERRUPT_NAME 47
-    INTERRUPT_NAME 48
 
 global idt_flush
 idt_flush:
