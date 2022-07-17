@@ -17,8 +17,9 @@ int _start(void)
         halt();
     }
 
-    task_t *bin = loader_binary(executable);
+    task_t *bin = loader_binary(executable, "/bin/test.elf");
     sched_push(bin);
+    cpu_enable_int();
 
     for (;;);
 

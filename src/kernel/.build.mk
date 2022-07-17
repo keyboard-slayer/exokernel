@@ -12,7 +12,8 @@ KERNEL_CFLAGS = 					\
 	-mcmodel=kernel					\
 	-m64							\
 	-DSTB_SPRINTF_IMPLEMENTATION	\
-	-Isrc/
+	-Isrc/							\
+	-DSCHED_QUANTUM=$(SCHED_QUANTUM)
 
 KERNEL_LDFLAGS +=					\
 	$(LDFLAGS)						\

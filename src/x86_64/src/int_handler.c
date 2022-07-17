@@ -1,5 +1,6 @@
 #include <kernel/inc/logging.h>
 #include <kernel/inc/arch.h>
+#include <kernel/inc/sched.h>
 
 #include "../inc/regs.h"
 #include "../inc/madt.h"
@@ -92,6 +93,10 @@ uint64_t interrupts_handler(uint64_t rsp)
         {
             case 0:
             {
+                if (sched_is_running())
+                {
+                    sched_yield(regs);
+                }
                 break;
             }
         }

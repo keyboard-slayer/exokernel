@@ -11,6 +11,8 @@
 
 #include <stdbool.h>
 #include <stdint.h>
+#include <stddef.h>
+#include <klibc/inc/vec.h>
 
 typedef struct 
 {
@@ -29,14 +31,19 @@ typedef struct
 } context_t;
 
 void arch_init(void);
+
+void cpu_enable_int(void);
+size_t cpu_get_count(void);
+
 void *vmm_create_space(void);
 void vmm_map(void *pml, virtual_physical_map_t map, bool user);
 void vmm_switch_space(void *pml);
 bool vmm_is_mapped(void *pml, uint64_t virt);
-context_t context_create(uintptr_t ip);
-void context_switch(context_t *ctx, regs_t *regs);
-void switch_registers(regs_t *regs);
 void *vmm_get_kernel_pml(void);
 void *vmm_get_current_pml(void);
+
+context_t context_create(uintptr_t ip);
+void context_switch(context_t *ctx, regs_t *regs);
+void context_save(context_t *ctx, regs_t *regs);
 
 #endif /* !KERNEL_INC_ARCH_H */

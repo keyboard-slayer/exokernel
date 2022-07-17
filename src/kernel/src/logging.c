@@ -8,7 +8,6 @@
 #define cpu_id lapic_current_cpu
 #endif /* !__x86_64__ */
 
-
 DECLARE_LOCK(logging);
 
 static const char *log[] = {

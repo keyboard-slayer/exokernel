@@ -12,7 +12,7 @@
 #include "../inc/loader.h"
 #include "../inc/sched.h"
 
-task_t *loader_binary(void *elf)
+task_t *loader_binary(void *elf, char const *path)
 {
     Elf64_Ehdr *header = elf;
     
@@ -61,5 +61,5 @@ task_t *loader_binary(void *elf)
 
     klog(INFO, "Entry point: %p", header->e_entry);
 
-    return create_task(space, header->e_entry);
+    return task_create(space, path, header->e_entry, sched_next_pid());
 }

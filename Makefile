@@ -9,6 +9,7 @@ LOADER ?= limine
 ARCH ?= x86_64
 BIOS ?= /usr/share/ovmf/x64/OVMF.fd
 SYSROOT ?= ./sysroot
+SCHED_QUANTUM ?= 8
 
 CFLAGS =							\
 	-nostdlib						\

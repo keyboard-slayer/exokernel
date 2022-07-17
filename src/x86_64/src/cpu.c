@@ -31,6 +31,14 @@ void init_cpus(size_t count)
     }
 }
 
+void cpu_enable_int(void)
+{
+    for (size_t i = 0; i < cpus_count; i++)
+    {
+        cpu(i)->int_enable = true;
+    }
+}
+
 size_t cpu_get_count(void)
 {
     return cpus_count;
@@ -39,6 +47,16 @@ size_t cpu_get_count(void)
 size_t cpu_get_ready(void)
 {
     return cpus_ready;
+}
+
+cpu_t *cpu(int id)
+{
+    return &cpus[id];
+}
+
+cpu_t *cpu_self(void)
+{
+    return &cpus[lapic_current_cpu()];
 }
 
 void _start_cpus(void)
@@ -61,16 +79,23 @@ void _start_cpus(void)
     syscall_init();
     intstack_init();
     lapic_init();
+
+    __asm__ volatile("cli");
+
     lapic_timer_init();
 
-    UNLOCK(smp);
+    vec_init(&cpu_self()->tasks);
 
     cpus_ready++;
 
-    while (cpus[lapic_current_cpu()].goto_func == NULL)
+    UNLOCK(smp);
+
+    while (!cpu_self()->int_enable)
     {
         __asm__ volatile ("pause");
     }
 
-    cpus[lapic_current_cpu()].goto_func();
+    __asm__ volatile("sti");
+
+    for (;;);
 }

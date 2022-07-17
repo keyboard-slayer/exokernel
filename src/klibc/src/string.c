@@ -37,6 +37,24 @@ void *memcpy(void *dst, void const *src, size_t n)
     return dst;
 }
 
+void *memncpy(void *dst, void const *src, size_t n)
+{
+    unsigned char *p1 = dst;
+    unsigned char const *p2 = src;
+    while (n--)
+    {
+        if (*p2)
+        {
+            *p1++ = *p2++;
+        }
+        else
+        {
+            break;
+        }
+    }
+    return dst;
+}
+
 char *strrchr(char const *s, int c)
 {
     char *last = NULL;

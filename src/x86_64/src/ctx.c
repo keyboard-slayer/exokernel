@@ -47,3 +47,8 @@ void context_switch(context_t *ctx, regs_t *regs)
 
     *regs = ctx->regs;
 }
+
+void context_save(context_t *ctx, regs_t *regs)
+{
+    ctx->regs = *regs;
+}

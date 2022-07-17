@@ -87,6 +87,6 @@ typedef struct
     Elf64_Xword     p_align;
 } Elf64_Phdr;
 
-task_t *loader_binary(void *elf);
+task_t *loader_binary(void *elf, char const *path);
 
 #endif /* !_KERNEL_INC_ELF_H_ */
