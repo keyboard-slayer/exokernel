@@ -1,5 +1,5 @@
-#ifndef KERNEL_INC_LOCK_H_
-#define KERNEL_INC_LOCK_H_
+#ifndef KERNEL_INC_LOCK_H
+#define KERNEL_INC_LOCK_H
 
 
 #define DECLARE_LOCK(name) volatile int name ## Locked
@@ -10,4 +10,4 @@
 	__sync_synchronize(); \
 	name ## Locked = 0;
 
-#endif /* !KERNEL_INC_LOCK_H_ */
+#endif /* !KERNEL_INC_LOCK_H */

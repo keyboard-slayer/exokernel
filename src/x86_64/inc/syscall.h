@@ -1,5 +1,5 @@
-#ifndef _ARCH_X86_64_INC_SYSCALL_H
-#define _ARCH_X86_64_INC_SYSCALL_H
+#ifndef ARCH_X86_64_INC_SYSCALL_H
+#define ARCH_X86_64_INC_SYSCALL_H
 
 #define STAR_KCODE_OFFSET 32
 #define STAR_UCODE_OFFSET 48
@@ -20,4 +20,4 @@ enum SYSCALL {
 extern void syscall_handle(void);
 void syscall_init(void);
 
-#endif /* !_ARCH_X86_64_INC_SYSCALL_H */
+#endif /* !ARCH_X86_64_INC_SYSCALL_H */

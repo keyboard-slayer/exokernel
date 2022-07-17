@@ -2,13 +2,13 @@
 #include <kernel/inc/logging.h>
 #include <kernel/inc/utils.h>
 #include <kernel/inc/pmm.h>
+#include <kernel/inc/loader.h>
+
+#include <klibc/inc/stdlib.h>
 
 #include "../inc/gdt.h"
 #include "../inc/asm.h"
 #include "../inc/vmm.h"
-#include "kernel/inc/loader.h"
-
-extern void *malloc(size_t);
 
 context_t context_create(uintptr_t ip)
 {

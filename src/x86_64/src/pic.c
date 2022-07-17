@@ -1,7 +1,7 @@
+#include <stddef.h>
+
 #include "../inc/pic.h"
 #include "../inc/asm.h"
-
-#include <stddef.h>
 
 static void io_wait(void)
 {

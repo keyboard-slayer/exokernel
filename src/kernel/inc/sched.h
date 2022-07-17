@@ -2,15 +2,8 @@
 #define KERNEL_INC_SCHED_H
 
 #include "arch.h"
+#include "task.h"
 
-typedef struct 
-{
-    void *space;
-    uint8_t *stack;
-    context_t context;
-    void (*handlers[256])(void);
-    void (*prehandler)(void(*)(void), void(*)(void));
-} task_t;
 
 void sched_yield(regs_t *regs);
 void sched_init(void);

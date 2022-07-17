@@ -1,5 +1,5 @@
-#ifndef _KERNEL_INC_UTILS_H
-#define _KERNEL_INC_UTILS_H
+#ifndef KERNEL_INC_UTILS_H
+#define KERNEL_INC_UTILS_H
 
 #include <stddef.h>
 
@@ -15,4 +15,4 @@
                 __asm__ volatile("hlt");  \
             } 
 
-#endif /* !_KERNEL_INC_UTILS_H */
+#endif /* !KERNEL_INC_UTILS_H */

@@ -1,9 +1,10 @@
-#ifndef _KERNEL_INC_ELF_H_
-#define _KERNEL_INC_ELF_H_
+#ifndef KERNEL_INC_ELF_H
+#define KERNEL_INC_ELF_H
+
+#include <stdint.h>
 
 #include "arch.h"
 #include "sched.h"
-#include <stdint.h>
 
 #define ELFMAG0 0x7F
 #define ELFMAG1 'E'

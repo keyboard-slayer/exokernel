@@ -1,5 +1,5 @@
-#ifndef X86_64_INC_CPU_H_
-#define X86_64_INC_CPU_H_
+#ifndef ARCH_X86_64_INC_CPU_H
+#define ARCH_X86_64_INC_CPU_H
 
 #include <stddef.h>
 #include <stdint.h>
@@ -14,4 +14,4 @@ void init_cpus(size_t count);
 size_t cpu_get_ready(void);
 size_t cpu_get_count(void);
 
-#endif /* !X86_64_INC_CPU_H_ */
+#endif /* !ARCH_X86_64_INC_CPU_H */

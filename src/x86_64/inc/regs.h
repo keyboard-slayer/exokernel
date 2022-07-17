@@ -1,5 +1,5 @@
-#ifndef _ARCH_X86_64_INC_REGS_H_
-#define _ARCH_X86_64_INC_REGS_H_
+#ifndef ARCH_X86_64_INC_REGS_H
+#define ARCH_X86_64_INC_REGS_H
 
 #include <stdint.h>
 
@@ -58,4 +58,4 @@ typedef struct stackframe
     uint64_t rip;
 } stackframe_t;
 
-#endif /* !_ARCH_X86_64_INC_REGS_H_ */
+#endif /* !ARCH_X86_64_INC_REGS_H */

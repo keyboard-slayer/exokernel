@@ -1,11 +1,11 @@
-#ifndef _KERNEL_INC_ARCH_H_
-#define _KERNEL_INC_ARCH_H_
+#ifndef KERNEL_INC_ARCH_H
+#define KERNEL_INC_ARCH_H
 
-#ifdef __x86_64
+#ifdef __x86_64__
 #include <x86_64/inc/regs.h>
 #define PAGE_SIZE 4096
 #define STACK_SIZE (0x4000)
-#endif
+#endif /* !__x86_64__ */
 
 #define USER_STACK_BASE (0xc0000000)
 
@@ -39,4 +39,4 @@ void switch_registers(regs_t *regs);
 void *vmm_get_kernel_pml(void);
 void *vmm_get_current_pml(void);
 
-#endif /* !_KERNEL_INC_ARCH_H_ */
+#endif /* !KERNEL_INC_ARCH_H */

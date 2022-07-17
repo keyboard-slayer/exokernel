@@ -6,7 +6,7 @@
 #ifdef __x86_64__
 #include <x86_64/inc/madt.h>
 #define cpu_id lapic_current_cpu
-#endif
+#endif /* !__x86_64__ */
 
 
 DECLARE_LOCK(logging);

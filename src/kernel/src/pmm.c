@@ -1,14 +1,15 @@
+
+#include <klibc/inc/string.h>
+
+#include <stdint.h>
+#include <stdbool.h>
+
 #include "../inc/arch.h"
 #include "../inc/pmm.h"
 #include "../inc/loader.h"
 #include "../inc/logging.h"
 #include "../inc/lock.h"
 #include "../inc/utils.h"
-
-#include <klibc/inc/string.h>
-
-#include <stdint.h>
-#include <stdbool.h>
 
 DECLARE_LOCK(pmm);
 

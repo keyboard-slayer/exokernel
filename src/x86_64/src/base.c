@@ -1,3 +1,8 @@
+#include <kernel/inc/arch.h>
+#include <kernel/inc/logging.h>
+#include <kernel/inc/pmm.h>
+#include <kernel/inc/loader.h>
+
 #include "../inc/acpi.h"
 #include "../inc/madt.h"
 #include "../inc/gdt.h"
@@ -6,11 +11,6 @@
 #include "../inc/syscall.h"
 #include "../inc/pit.h"
 #include "../inc/pic.h"
-
-#include <kernel/inc/arch.h>
-#include <kernel/inc/logging.h>
-#include <kernel/inc/pmm.h>
-#include <kernel/inc/loader.h>
 
 void arch_init(void)
 {

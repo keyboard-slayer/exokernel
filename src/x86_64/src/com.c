@@ -1,4 +1,5 @@
 #include <stdint.h>
+
 #include "../inc/asm.h"
 
 #define COM_PORT 0x3F8

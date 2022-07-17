@@ -1,5 +1,5 @@
-#ifndef ARCH_X86_64_INC_GDT_H_
-#define ARCH_X86_64_INC_GDT_H_
+#ifndef ARCH_X86_64_INC_GDT_H
+#define ARCH_X86_64_INC_GDT_H
 
 #include <stdint.h>
 
@@ -81,4 +81,4 @@ extern void gdt_flush(uintptr_t);
 extern void tss_flush(void);
 void intstack_init(void);
 
-#endif /* !ARCH_X86_64_INC_GDT_H_ */
+#endif /* !ARCH_X86_64_INC_GDT_H */

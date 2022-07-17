@@ -1,3 +1,7 @@
+#include <klibc/inc/stdlib.h>
+
+#include <stddef.h>
+
 #include "../inc/arch.h"
 #include "../inc/logging.h"
 #include "../inc/sched.h"
@@ -5,12 +9,8 @@
 #include "../inc/utils.h"
 #include "../inc/loader.h"
 
-#include <stddef.h>
-
 static task_t *current = NULL;
 static task_t *next = NULL;
-
-extern void *calloc(size_t, size_t);
 
 void sched_init(void)
 {
@@ -50,24 +50,3 @@ task_t *sched_current(void)
     return current;
 }
 
-task_t *create_task(void *space, uintptr_t ip)
-{
-    task_t *self = calloc(sizeof(task_t), 1);
-    self->space = space;
-    self->stack = pmm_alloc(STACK_SIZE);
-
-    if (self->stack == NULL)
-    {
-        klog(ERROR, "Failed to allocate stack for task");
-        halt();
-    }
-
-    vmm_map(space, (virtual_physical_map_t) {
-        .physical = (uintptr_t) self->stack,
-        .virtual = USER_STACK_BASE,
-        .length = STACK_SIZE
-    }, true);
-
-    self->context = context_create(ip);
-    return self;
-}

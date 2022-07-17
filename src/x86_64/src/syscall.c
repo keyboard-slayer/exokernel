@@ -1,13 +1,13 @@
-#include "../inc/syscall.h"
-#include "../inc/gdt.h"
-#include "../inc/regs.h"
-#include "../inc/asm.h"
-
 #include <kernel/inc/logging.h>
 #include <kernel/inc/sched.h>
 #include <kernel/inc/com.h>
 
 #include <stdint.h>
+
+#include "../inc/syscall.h"
+#include "../inc/gdt.h"
+#include "../inc/regs.h"
+#include "../inc/asm.h"
 
 typedef int64_t (*syscall_t)(regs_t *);
 

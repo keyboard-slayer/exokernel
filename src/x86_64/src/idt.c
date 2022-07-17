@@ -1,7 +1,7 @@
+#include <kernel/inc/logging.h>
+
 #include "../inc/idt.h"
 #include "../inc/gdt.h"
-
-#include <kernel/inc/logging.h>
 
 static idt_entry_t idt_entries[IDT_LENGTH] = {0};
 

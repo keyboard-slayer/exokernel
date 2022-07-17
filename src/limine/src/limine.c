@@ -1,6 +1,3 @@
-#include "../inc/limine.h"
-#include <stddef.h>
-
 #include <kernel/inc/loader.h>
 #include <kernel/inc/logging.h>
 
@@ -8,6 +5,10 @@
 
 #include <x86_64/inc/cpu.h>
 #include <x86_64/inc/madt.h>
+
+#include <stddef.h>
+
+#include "../inc/limine.h"
 
 volatile struct limine_hhdm_request hhdm_request = {
     .id = LIMINE_HHDM_REQUEST,

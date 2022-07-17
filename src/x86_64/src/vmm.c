@@ -1,5 +1,3 @@
-#include "../inc/vmm.h"
-
 #include <kernel/inc/loader.h>
 #include <kernel/inc/logging.h>
 #include <kernel/inc/lock.h>
@@ -7,6 +5,8 @@
 #include <kernel/inc/arch.h>
 
 #include <klibc/inc/string.h>
+
+#include "../inc/vmm.h"
 
 DECLARE_LOCK(vmm);
 static pml_t *kernel_pml4;

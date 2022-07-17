@@ -1,5 +1,5 @@
-#ifndef _ARCH_X86_64_IDT_H_
-#define _ARCH_X86_64_IDT_H_
+#ifndef ARCH_X86_64_IDT_H
+#define ARCH_X86_64_IDT_H
 
 #include <stdint.h>
 
@@ -35,4 +35,4 @@ extern void idt_flush(uintptr_t);
 
 void idt_init(void);
 
-#endif /* !_ARCH_X86_64_IDT_H_ */
+#endif /* !ARCH_X86_64_IDT_H */

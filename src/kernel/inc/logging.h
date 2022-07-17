@@ -1,9 +1,10 @@
-#ifndef _KERNEL_INC_LOGGING_H_
-#define _KERNEL_INC_LOGGING_H_
+#ifndef KERNEL_INC_LOGGING_H
+#define KERNEL_INC_LOGGING_H
+
+#include <klibc/inc/string.h>
 
 #include <stddef.h>
 #include <stdarg.h>
-#include <klibc/inc/string.h>
 
 #define __FILENAME__                                                                               \
     (strrchr(__FILE__, '/') ? strrchr(__FILE__, '/') + 1 : __FILE__)
@@ -21,4 +22,4 @@ typedef enum
 
 void klog_impl(log_level_t level, char const *filename, size_t lineno, char const *format, ...);
 
-#endif /* !_KERNEL_INC_LOGGING_H_ */
+#endif /* !KERNEL_INC_LOGGING_H */

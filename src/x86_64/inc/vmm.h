@@ -1,5 +1,5 @@
-#ifndef ARCH_X86_64_INC_VMM_H_
-#define ARCH_X86_64_INC_VMM_H_
+#ifndef ARCH_X86_64_INC_VMM_H
+#define ARCH_X86_64_INC_VMM_H
 
 #include <stdint.h>
 #include <stdbool.h>
@@ -57,4 +57,4 @@ typedef struct
 void vmm_init(void);
 void vmm_switch_space(void *space);
 
-#endif /* !ARCH_X86_64_INC_VMM_H_ */
+#endif /* !ARCH_X86_64_INC_VMM_H */

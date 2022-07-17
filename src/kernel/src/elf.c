@@ -1,3 +1,9 @@
+
+#include <klibc/inc/string.h>
+#include <klibc/inc/stdlib.h>
+
+#include <stddef.h>
+
 #include "../inc/elf.h"
 #include "../inc/arch.h"
 #include "../inc/logging.h"
@@ -5,12 +11,6 @@
 #include "../inc/pmm.h"
 #include "../inc/loader.h"
 #include "../inc/sched.h"
-
-#include <klibc/inc/string.h>
-
-#include <stddef.h>
-
-extern void *calloc(size_t, size_t);
 
 task_t *loader_binary(void *elf)
 {

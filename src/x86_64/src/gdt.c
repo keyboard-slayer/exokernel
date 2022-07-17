@@ -1,7 +1,9 @@
-#include "../inc/gdt.h"
-
 #include <kernel/inc/arch.h>
 #include <kernel/inc/logging.h>
+
+#include <klibc/inc/stdlib.h>
+
+#include "../inc/gdt.h"
 
 static gdt_t gdt;
 
@@ -10,7 +12,6 @@ static gdt_descriptor_t gdt_descriptor = {
     .base = (uint64_t)&gdt,
 };
 
-extern void *malloc(size_t);
 
 static tss_t tss;
 

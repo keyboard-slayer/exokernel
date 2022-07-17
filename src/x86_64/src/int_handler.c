@@ -1,12 +1,10 @@
+#include <kernel/inc/logging.h>
+#include <kernel/inc/arch.h>
+
 #include "../inc/regs.h"
 #include "../inc/madt.h"
 #include "../inc/asm.h"
 #include "../inc/vmm.h"
-
-#include <kernel/inc/logging.h>
-#include <kernel/inc/com.h>
-#include <kernel/inc/arch.h>
-#include <kernel/inc/sched.h>
 
 static char *exception_messages[32] = {
     "Division By Zero",

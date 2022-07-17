@@ -1,3 +1,11 @@
+
+#include <kernel/inc/arch.h>
+#include <kernel/inc/lock.h>
+#include <kernel/inc/logging.h>
+#include <kernel/inc/utils.h>
+
+#include <klibc/inc/stdlib.h>
+
 #include "../inc/cpu.h"
 #include "../inc/madt.h"
 #include "../inc/gdt.h"
@@ -5,18 +13,11 @@
 #include "../inc/syscall.h"
 #include "../inc/vmm.h"
 
-#include <kernel/inc/arch.h>
-#include <kernel/inc/lock.h>
-#include <kernel/inc/logging.h>
-#include <kernel/inc/utils.h>
-
 DECLARE_LOCK(smp);
 
 static cpu_t *cpus = NULL;
 static size_t cpus_count = 0;
 static size_t cpus_ready = 1;
-
-extern void *calloc(size_t, size_t);
 
 void init_cpus(size_t count)
 {

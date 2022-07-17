@@ -1,10 +1,11 @@
+#include <kernel/inc/logging.h>
+#include <kernel/inc/loader.h>
+
 #include "../inc/madt.h"
 #include "../inc/acpi.h"
 #include "../inc/asm.h"
 #include "../inc/pit.h"
 
-#include <kernel/inc/logging.h>
-#include <kernel/inc/loader.h>
 
 static uintptr_t lapic_addr = 0;
 static uintptr_t ioapic_addr;
