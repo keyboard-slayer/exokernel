@@ -6,6 +6,8 @@
 #include "../inc/loader.h"
 #include "../inc/sched.h"
 
+#include <klibc/inc/string.h>
+
 #include <stddef.h>
 
 extern void *calloc(size_t, size_t);
@@ -52,8 +54,8 @@ task_t *loader_binary(void *elf)
                 .length = ALIGN_UP(program_header->p_memsz, PAGE_SIZE)
             }, true);
 
-            __builtin_memcpy((void *)((uint64_t) addr + loader_get_hhdm()), (void *)((uint64_t)elf + program_header->p_offset), program_header->p_filesz);
-            __builtin_memcpy((void *)((uint64_t) addr + loader_get_hhdm() + program_header[i].p_filesz), (void *)((uint64_t)elf + program_header->p_offset + program_header->p_filesz), program_header->p_memsz - program_header->p_filesz);
+            memcpy((void *)((uint64_t) addr + loader_get_hhdm()), (void *)((uint64_t)elf + program_header->p_offset), program_header->p_filesz);
+            memcpy((void *)((uint64_t) addr + loader_get_hhdm() + program_header[i].p_filesz), (void *)((uint64_t)elf + program_header->p_offset + program_header->p_filesz), program_header->p_memsz - program_header->p_filesz);
         }
     }
 

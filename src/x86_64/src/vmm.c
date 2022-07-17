@@ -6,6 +6,8 @@
 #include <kernel/inc/pmm.h>
 #include <kernel/inc/arch.h>
 
+#include <klibc/inc/string.h>
+
 DECLARE_LOCK(vmm);
 static pml_t *kernel_pml4;
 
@@ -27,7 +29,7 @@ static uint64_t vmm_get_pml_alloc(pml_t *pml, size_t index, bool user, bool allo
             halt();
         }
 
-        __builtin_memset((void *) (new_entry + loader_get_hhdm()), 0, PAGE_SIZE);
+        memset((void *) (new_entry + loader_get_hhdm()), 0, PAGE_SIZE);
         pml->entries[index] = pml_make_entry(new_entry, user);
 
         return new_entry + loader_get_hhdm();
@@ -91,7 +93,7 @@ void vmm_init(void)
         halt();
     }
 
-    __builtin_memset(kernel_pml4, 0, PAGE_SIZE);
+    memset(kernel_pml4, 0, PAGE_SIZE);
 
     klog(INFO, "Mapping %p to %p", 0, loader_get_hhdm());
     vmm_map(kernel_pml4, (virtual_physical_map_t) {
@@ -127,7 +129,7 @@ void vmm_init(void)
 void *vmm_create_space(void)
 {
     pml_t *space = (pml_t *) ((uintptr_t) pmm_alloc(PAGE_SIZE) + loader_get_hhdm());
-    __builtin_memset(space, 0, PAGE_SIZE);
+    memset(space, 0, PAGE_SIZE);
 
     for (size_t i = 255; i < 512; i++)
     {

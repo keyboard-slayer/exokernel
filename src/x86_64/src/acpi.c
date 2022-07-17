@@ -4,6 +4,8 @@
 #include <kernel/inc/loader.h>
 #include <kernel/inc/logging.h>
 
+#include <klibc/inc/string.h>
+
 static rsdt_t *rsdt;
 
 void acpi_init(void)
@@ -25,7 +27,7 @@ acpi_sdt_t *acpi_parse_rsdt(char const *tablename)
     {
         acpi_sdt_t *sdt = (acpi_sdt_t *) (rsdt->sdtAddr[i] + loader_get_hhdm());
 
-        if (__builtin_memcmp(tablename, sdt->signature, 4) == 0)
+        if (memcmp(tablename, sdt->signature, 4) == 0)
         {
             klog(INFO, "Found %s at %p", tablename, sdt);
             return sdt;

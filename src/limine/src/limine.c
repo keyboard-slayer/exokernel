@@ -4,6 +4,8 @@
 #include <kernel/inc/loader.h>
 #include <kernel/inc/logging.h>
 
+#include <klibc/inc/string.h>
+
 #include <x86_64/inc/cpu.h>
 #include <x86_64/inc/madt.h>
 
@@ -113,7 +115,7 @@ void *loader_get_module(char const *name)
 
     for (size_t i = 0; i < module_request.response->module_count; i++)
     {
-        if (__builtin_memcmp(module_request.response->modules[i]->path, name, __builtin_strlen(name)) == 0)
+        if (memcmp(module_request.response->modules[i]->path, name, strlen(name)) == 0)
         {
             return module_request.response->modules[i]->address;
         }

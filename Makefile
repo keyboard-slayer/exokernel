@@ -44,6 +44,7 @@ QEMU_FLAGS =												\
 	
 include src/$(ARCH)/.build.mk
 include src/$(LOADER)/.build.mk
+include src/klibc/.build.mk
 include src/kernel/.build.mk
 include src/test/.build.mk
 

@@ -5,6 +5,8 @@
 #include "../inc/lock.h"
 #include "../inc/utils.h"
 
+#include <klibc/inc/string.h>
+
 #include <stdint.h>
 #include <stdbool.h>
 
@@ -134,7 +136,7 @@ void pmm_init(void)
         halt();
     }
 
-    __builtin_memset(bitmap, 0xff, bitmap_size);
+    memset(bitmap, 0xff, bitmap_size);
 
     for (size_t i = 0; i < memmaps->length; i++)
     {

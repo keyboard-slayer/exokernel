@@ -3,9 +3,10 @@
 
 #include <stddef.h>
 #include <stdarg.h>
+#include <klibc/inc/string.h>
 
 #define __FILENAME__                                                                               \
-    (__builtin_strrchr(__FILE__, '/') ? __builtin_strrchr(__FILE__, '/') + 1 : __FILE__)
+    (strrchr(__FILE__, '/') ? strrchr(__FILE__, '/') + 1 : __FILE__)
 
 #define klog(LEVEL, ...) \
     klog_impl(LEVEL, __FILENAME__, __LINE__, __VA_ARGS__);
