@@ -1,7 +1,7 @@
 #include <kernel/inc/arch.h>
 #include <kernel/inc/logging.h>
 
-#include <klibc/inc/stdlib.h>
+#include <libc/inc/stdlib.h>
 
 #include "../inc/gdt.h"
 

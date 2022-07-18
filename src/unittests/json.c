@@ -6,7 +6,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 
-#include <klibc/inc/json.h>
+#include <libc/inc/json.h>
 
 char *open_example(void)
 {
@@ -27,10 +27,8 @@ char *open_example(void)
     return data;
 }
 
-void test_json(void **state)
+void test_json(__attribute__((unused)) void **state)
 {
-    (void) state;
-
     char *data = open_example();
     json_t json = json_parse(data);
     assert_int_equal(json.type, JSON_OBJECT);

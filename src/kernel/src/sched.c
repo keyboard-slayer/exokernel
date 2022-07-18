@@ -2,7 +2,7 @@
 #include <x86_64/inc/cpu.h>
 #endif /* !__x86_64__ */
 
-#include <klibc/inc/stdlib.h>
+#include <libc/inc/stdlib.h>
 
 #include <stddef.h>
 
@@ -14,19 +14,24 @@
 #include "../inc/loader.h"
 #include "../inc/lock.h"
 
-static pid_t last_pid = -1;
+static pid_t last_pid = 0;
 static bool sched_running = true;
 
 DECLARE_LOCK(sched);
 
 void sched_init(void)
 {
-    task_t *boot = task_create(vmm_get_kernel_pml(), "/boot/kernel.elf", 0, ++last_pid);
+    LOCK(sched);
+
+    task_t *boot = task_create(vmm_get_kernel_pml(), "/boot/kernel.elf", 0);
+    boot->pid = 0;
 
     for (size_t i = 0; i < cpu_get_count(); i++)
     {
         vec_push(&cpu(i)->tasks, boot);
     }
+
+    UNLOCK(sched);
 }
 
 void sched_yield(regs_t *regs)
@@ -63,6 +68,8 @@ void sched_push(task_t *task)
 {
     LOCK(sched);
 
+    task->pid = ++last_pid;
+
     size_t smallest = cpu(0)->tasks.length;
     size_t cpu_id = 0;
 
@@ -80,15 +87,16 @@ void sched_push(task_t *task)
     UNLOCK(sched);
 }
 
-pid_t sched_next_pid(void)
-{
-    LOCK(sched);
-    ++last_pid;
-    UNLOCK(sched);
-    return last_pid;
-}
-
 bool sched_is_running(void)
 {
     return sched_running;
+}
+
+task_t *sched_current(void)
+{
+    LOCK(sched);
+    task_t *task = cpu_self()->tasks.data[cpu_self()->current];
+    UNLOCK(sched);
+
+    return task;
 }

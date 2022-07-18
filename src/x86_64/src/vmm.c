@@ -4,7 +4,7 @@
 #include <kernel/inc/pmm.h>
 #include <kernel/inc/arch.h>
 
-#include <klibc/inc/string.h>
+#include <libc/inc/string.h>
 
 #include "../inc/vmm.h"
 

@@ -2,7 +2,7 @@
 #include <kernel/inc/logging.h>
 #include <kernel/inc/utils.h>
 
-#include <klibc/inc/string.h>
+#include <libc/inc/string.h>
 
 #include "../inc/acpi.h"
 

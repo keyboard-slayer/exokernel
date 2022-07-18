@@ -16,10 +16,10 @@ UNITTEST_CFLAGS = 				\
 	-lcmocka
 
 UNITTEST_SRC = $(wildcard src/unittests/*.c)			\
-			   src/klibc/src/map.c 					    \
-			   src/klibc/src/vec.c 						\
-			   src/klibc/src/reader.c					\
-			   src/klibc/src/json.c
+			   src/libc/src/map.c 					    \
+			   src/libc/src/vec.c 						\
+			   src/libc/src/reader.c					\
+			   src/libc/src/json.c
 
 $(UNITTEST): $(UNITTEST_SRC)
 	@$(MKCWD)

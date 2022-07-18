@@ -1,0 +1,1 @@
+LIBC_SRC = $(wildcard src/libc/src/*.c)

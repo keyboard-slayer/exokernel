@@ -2,18 +2,17 @@
 #include <kernel/inc/logging.h>
 #include <kernel/inc/utils.h>
 
-#include <klibc/inc/stdlib.h>
-#include <klibc/inc/string.h>
+#include <libc/inc/stdlib.h>
+#include <libc/inc/string.h>
 
 #include "../inc/task.h"
 
-task_t *task_create(void *space, char const *path, uintptr_t ip, pid_t pid)
+task_t *task_create(void *space, char const *path, uintptr_t ip)
 {
     task_t *self = calloc(sizeof(task_t), 1);
     self->space = space;
     self->stack = pmm_alloc(STACK_SIZE);
-    self->pid = pid;
-
+    
     memncpy(self->path, path, UNIX_PATH_LIMIT);
 
     if (self->stack == NULL)

@@ -1,5 +1,5 @@
 
-#include <klibc/inc/string.h>
+#include <libc/inc/string.h>
 
 #include <stdint.h>
 #include <stdbool.h>

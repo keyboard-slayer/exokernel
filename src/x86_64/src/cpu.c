@@ -4,7 +4,7 @@
 #include <kernel/inc/logging.h>
 #include <kernel/inc/utils.h>
 
-#include <klibc/inc/stdlib.h>
+#include <libc/inc/stdlib.h>
 
 #include "../inc/cpu.h"
 #include "../inc/madt.h"

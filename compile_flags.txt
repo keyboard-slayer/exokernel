@@ -12,4 +12,4 @@
 -DSCHED_QUANTUM=8
 -Wno-gnu-empty-struct
 -Wno-gnu-statement-expression
--Isrc/klibc/inc
+-Isrc/libc/inc

@@ -1,5 +1,5 @@
 USERTEST = $(BUILD)/test.elf
-USERTEST_SRC = $(wildcard src/userspace-test/src/*.c)
+USERTEST_SRC = $(wildcard src/userspace-test/src/*.c) $(LIBC_SRC)
 BUILD_USERTEST = $(BUILD)/userspace-test
 USERTEST_OBJ = $(patsubst %, $(BUILD_USERTEST)/%.o, $(USERTEST_SRC))
 

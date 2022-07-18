@@ -1,1 +1,0 @@
-KERNEL_SRC += $(wildcard src/klibc/src/*.c)
