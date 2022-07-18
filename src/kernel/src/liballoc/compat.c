@@ -1,9 +1,10 @@
+#include <kernel/inc/arch.h>
+
 #include <stdint.h>
 
 #include "../../inc/lock.h" 
 #include "../../inc/pmm.h"
 #include "../../inc/loader.h"
-#include "kernel/inc/arch.h"
 
 DECLARE_LOCK(liballoc);
 

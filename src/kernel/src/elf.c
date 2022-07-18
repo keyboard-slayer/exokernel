@@ -1,6 +1,6 @@
 
-#include <klibc/inc/string.h>
-#include <klibc/inc/stdlib.h>
+#include <libc/inc/string.h>
+#include <libc/inc/stdlib.h>
 
 #include <stddef.h>
 
@@ -60,6 +60,5 @@ task_t *loader_binary(void *elf, char const *path)
     }
 
     klog(INFO, "Entry point: %p", header->e_entry);
-
-    return task_create(space, path, header->e_entry, sched_next_pid());
+    return task_create(space, path, header->e_entry);
 }

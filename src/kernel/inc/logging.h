@@ -1,7 +1,7 @@
 #ifndef KERNEL_INC_LOGGING_H
 #define KERNEL_INC_LOGGING_H
 
-#include <klibc/inc/string.h>
+#include <libc/inc/string.h>
 
 #include <stddef.h>
 #include <stdarg.h>

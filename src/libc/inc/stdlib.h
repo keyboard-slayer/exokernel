@@ -1,5 +1,5 @@
-#ifndef KLIBC_INC_STDLIB_H
-#define KLIBC_INC_STDLIB_H
+#ifndef LIBC_INC_STDLIB_H
+#define LIBC_INC_STDLIB_H
 
 #include <stddef.h>
 
@@ -9,4 +9,6 @@ void *realloc(void *ptr, size_t size);
 void free(void *ptr);
 long atol(const char *nptr);
 
-#endif /* !KLIBC_INC_STDLIB_H */
+__attribute__((noreturn)) void abort(void);
+
+#endif /* !LIBC_INC_STDLIB_H */

@@ -1,7 +1,8 @@
 #include "../inc/com.h"
 #include "../inc/logging.h"
-#include "../inc/stb_sprintf.h"
 #include "../inc/lock.h"
+
+#include <stb_sprintf.h>
 
 #ifdef __x86_64__
 #include <x86_64/inc/madt.h>

@@ -2,7 +2,7 @@ CC = clang
 LD = ld.lld
 AS = nasm
 
-MKCWD=mkdir -p $(@D)
+MKCWD = mkdir -p $(@D)
 BUILD = ./build
 
 LOADER ?= limine
@@ -25,7 +25,8 @@ CFLAGS =							\
 	-fno-stack-protector			\
 	-O0								\
 	-D__$(ARCH)__					\
-	-Isrc/klibc/inc
+	-DSTB_SPRINTF_IMPLEMENTATION	\
+	-Isrc/libc/inc
 
 ASFLAGS =							\
 	-F dwarf						\
@@ -48,7 +49,7 @@ QEMU_FLAGS =												\
 include src/unittests/.build.mk
 include src/$(ARCH)/.build.mk
 include src/$(LOADER)/.build.mk
-include src/klibc/.build.mk
+include src/libc/.build.mk
 include src/kernel/.build.mk
 include src/userspace-test/.build.mk
 
@@ -63,8 +64,8 @@ sysroot: $(KERNEL) $(LOADER_FILE)
 	cp $(KERNEL) $(SYSROOT)/boot
 
 clean:
-	rm -r $(BUILD)
-	rm -r $(SYSROOT)
+	rm -rf $(BUILD)
+	rm -rf $(SYSROOT)
 
 .PHONY: run clean
 .DEFAULT_GOAL := sysroot

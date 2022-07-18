@@ -1,5 +1,5 @@
-#ifndef KLIBC_INC_JSON_H
-#define KLIBC_INC_JSON_H
+#ifndef LIBC_INC_JSON_H
+#define LIBC_INC_JSON_H
 
 #include <stdbool.h>
 
@@ -42,4 +42,4 @@ json_t json_parse_reader(reader_t *r);
 json_t json_get(json_t const j, char const *key);
 void json_free(json_t *j);
 
-#endif /* !KLIBC_INC_JSON_H */
+#endif /* !LIBC_INC_JSON_H */

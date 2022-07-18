@@ -1,8 +1,11 @@
-#include "../inc/syscall.h"
+#include <unistd.h>
+#include <stdio.h>
 
 int _start(void)
 {
-    syscall(SYS_LOG, (uintptr_t) "Hello, World !\n");
+    pid_t pid = getpid();
+    printf("Current pid: %d\n", pid);
+
     for (;;);
     __builtin_unreachable();
 }

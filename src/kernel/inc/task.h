@@ -1,7 +1,7 @@
 #ifndef KERNEL_INC_TASK_H
 #define KERNEL_INC_TASK_H
 
-#include <klibc/inc/vec.h>
+#include <libc/inc/vec.h>
 
 #include <sys/types.h>
 
@@ -29,6 +29,6 @@ typedef struct
 } task_t;
 
 typedef vec(task_t *) vec_task_t;
-task_t *task_create(void *space, char const *name, uintptr_t ip, pid_t pid);
+task_t *task_create(void *space, char const *name, uintptr_t ip);
 
 #endif /* !KERNEL_INC_TASK_H */

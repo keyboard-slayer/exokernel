@@ -11,7 +11,6 @@ KERNEL_CFLAGS = 					\
 	-fno-zero-initialized-in-bss	\
 	-mcmodel=kernel					\
 	-m64							\
-	-DSTB_SPRINTF_IMPLEMENTATION	\
 	-Isrc/							\
 	-DSCHED_QUANTUM=$(SCHED_QUANTUM)\
 	-D__kernel__
@@ -21,6 +20,7 @@ KERNEL_LDFLAGS +=					\
 	-z max-page-size=0x1000
 
 KERNEL_SRC += 						\
+	$(LIBC_SRC)						\
 	$(wildcard src/kernel/src/*.c)	\
 	$(wildcard src/kernel/src/liballoc/*.c)
 

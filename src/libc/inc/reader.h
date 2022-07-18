@@ -1,5 +1,5 @@
-#ifndef KLIBC_INC_READER_H
-#define KLIBC_INC_READER_H
+#ifndef LIBC_INC_READER_H
+#define LIBC_INC_READER_H
 
 #include <stddef.h>
 #include <stdbool.h>
@@ -19,4 +19,4 @@ bool reader_is_end(reader_t *r);
 void reader_skip_space(reader_t *r);
 bool reader_skip_word(reader_t *r, char const *word);
 
-#endif /* !KLIBC_INC_READER_H */
+#endif /* !LIBC_INC_READER_H */

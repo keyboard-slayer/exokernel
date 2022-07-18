@@ -1,5 +1,5 @@
-#ifndef KLIBC_INC_STRING_H
-#define KLIBC_INC_STRING_H
+#ifndef LIBC_INC_STRING_H
+#define LIBC_INC_STRING_H
 
 #include <stddef.h>
 #include <stdint.h>
@@ -16,4 +16,4 @@ char *strdup(const char *s);
 char *strndup(const char *s, size_t n);
 int strcmp(const char *s1, const char *s2);
 
-#endif /* !KLIBC_INC_STRING_H */
+#endif /* !LIBC_INC_STRING_H */

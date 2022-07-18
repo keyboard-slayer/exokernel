@@ -3,6 +3,7 @@
 #include <kernel/inc/com.h>
 
 #include <stdint.h>
+#include <unistd.h>
 
 #include "../inc/syscall.h"
 #include "../inc/gdt.h"
@@ -29,12 +30,17 @@ int64_t syscall_log(regs_t *regs)
     return 0;
 }
 
+int64_t syscall_getpid(__attribute__((unused)) regs_t *regs)
+{
+    return sched_current()->pid;
+}
+
 syscall_t syscall_matrix[] = {
-    [SYS_LOG] = syscall_log
+    [SYS_LOG] = syscall_log,
+    [SYS_GETPID] = syscall_getpid
 };
 
 int64_t syscall_handler(regs_t *regs)
 {
-    syscall_matrix[regs->rax](regs);
-    return 0;
+    return syscall_matrix[regs->rax](regs);
 }

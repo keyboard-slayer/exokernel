@@ -103,3 +103,15 @@ int strcmp(char const *s1, char const *s2)
     }
     return *s1 - *s2;
 }
+
+void *memset(void *s, int c, size_t n)
+{
+    char *p = s;
+
+    while (n--)
+    {
+        *p++ = c;
+    }
+
+    return s;
+}

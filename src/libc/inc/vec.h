@@ -1,5 +1,5 @@
-#ifndef KLIBC_INC_VEC_H
-#define KLIBC_INC_VEC_H
+#ifndef LIBC_INC_VEC_H
+#define LIBC_INC_VEC_H
 
 #include <stddef.h>
 #include <stdlib.h>
@@ -37,4 +37,4 @@ void vec_expand_(char **data, size_t *length, size_t *capacity, int memsz);
 
 typedef vec(char) vec_char_t;
 
-#endif /* !KLIBC_INC_VEC_H */
+#endif /* !LIBC_INC_VEC_H */

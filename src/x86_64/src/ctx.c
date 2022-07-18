@@ -4,7 +4,7 @@
 #include <kernel/inc/pmm.h>
 #include <kernel/inc/loader.h>
 
-#include <klibc/inc/stdlib.h>
+#include <libc/inc/stdlib.h>
 
 #include "../inc/gdt.h"
 #include "../inc/asm.h"

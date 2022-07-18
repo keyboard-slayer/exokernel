@@ -1,7 +1,7 @@
 #include <kernel/inc/loader.h>
 #include <kernel/inc/logging.h>
 
-#include <klibc/inc/string.h>
+#include <libc/inc/string.h>
 
 #include <x86_64/inc/cpu.h>
 #include <x86_64/inc/madt.h>
