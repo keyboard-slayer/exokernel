@@ -21,5 +21,7 @@ typedef enum
 } log_level_t;
 
 void klog_impl(log_level_t level, char const *filename, size_t lineno, char const *format, ...);
+void klog_lock(void);
+void klog_unlock(void);
 
 #endif /* !KERNEL_INC_LOGGING_H */

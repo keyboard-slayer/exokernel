@@ -34,3 +34,13 @@ void klog_impl(log_level_t level, char const *filename, size_t lineno, char cons
     va_end(args);
     UNLOCK(logging);
 }
+
+void klog_lock(void)
+{
+    LOCK(logging);
+}
+
+void klog_unlock(void)
+{
+    UNLOCK(logging);
+}

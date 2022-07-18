@@ -28,6 +28,7 @@ void arch_init(void)
     intstack_init();
 
     loader_boot_other_cpus();
+    cpu_enable_int();
 
     __asm__ volatile ("sti");
 }

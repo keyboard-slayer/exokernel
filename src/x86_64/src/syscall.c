@@ -23,7 +23,9 @@ void syscall_init(void)
 
 int64_t syscall_log(regs_t *regs)
 {
+    klog_lock();
     com_puts((char const *) regs->rbx);
+    klog_unlock();
     return 0;
 }
 
