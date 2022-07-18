@@ -73,15 +73,21 @@ char *strrchr(char const *s, int c)
     return last;
 }
 
-char *strdup(char const *s)
+char *strndup(const char *s, size_t n)
 {
-    size_t len = strlen(s);
-    char *dup = malloc(len + 1);
+    char *dup = malloc(n + 1);
+
     if (dup)
     {
-        memcpy(dup, s, len + 1);
+        memcpy(dup, s, n);
+        dup[n] = '\0';
     }
     return dup;
+}
+
+char *strdup(char const *s)
+{
+    return strndup(s, strlen(s));
 }
 
 int strcmp(char const *s1, char const *s2)

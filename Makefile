@@ -12,7 +12,6 @@ SYSROOT ?= ./sysroot
 SCHED_QUANTUM ?= 8
 
 CFLAGS =							\
-	-nostdlib						\
 	-std=c2x						\
 	-fbuiltin						\
 	-pedantic						\
@@ -21,6 +20,7 @@ CFLAGS =							\
 	-Wextra							\
 	-Wall							\
 	-Wno-gnu-empty-struct			\
+	-Wno-gnu-statement-expression	\
 	-ggdb							\
 	-fno-stack-protector			\
 	-O0								\
@@ -45,14 +45,18 @@ QEMU_FLAGS =												\
 	-drive file=fat:rw:sysroot,media=disk,format=raw		\
 	-enable-kvm												\
 	
+include src/unittests/.build.mk
 include src/$(ARCH)/.build.mk
 include src/$(LOADER)/.build.mk
 include src/klibc/.build.mk
 include src/kernel/.build.mk
-include src/test/.build.mk
+include src/userspace-test/.build.mk
 
 run: sysroot
 	$(QEMU) $(QEMU_FLAGS)
+
+test: $(UNITTEST)
+	$(UNITTEST)
 
 sysroot: $(KERNEL) $(LOADER_FILE)
 	mkdir -p $(SYSROOT)/boot $(SYSROOT)/bin

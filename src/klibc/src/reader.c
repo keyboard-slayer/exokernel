@@ -1,6 +1,7 @@
-#include <reader.h>
 #include <string.h>
 #include <ctype.h>
+
+#include "../inc/reader.h"
 
 reader_t reader_create(char const *s, size_t size)
 {
@@ -29,7 +30,10 @@ bool reader_is_end(reader_t *r)
 
 void reader_skip_space(reader_t *r)
 {
-    while (!reader_is_end(r) && isspace(reader_next(r)));
+    while (!reader_is_end(r) && isspace(reader_peek(r)))
+    {
+        reader_next(r);
+    }
 }
 
 bool reader_skip_word(reader_t *r, char const *word)
