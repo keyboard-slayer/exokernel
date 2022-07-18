@@ -4,7 +4,7 @@
 #include <assert.h>
 #include <stdlib.h>
 
-#include "../inc/vec.h"
+#include <vec.h>
 
 void vec_expand_(char **data, size_t *length, size_t *capacity, int memsz)
 {

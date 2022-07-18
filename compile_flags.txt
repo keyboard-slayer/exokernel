@@ -9,3 +9,5 @@
 -DSTB_SPRINTF_IMPLEMENTATION
 -Isrc/
 -DSCHED_QUANTUM=8
+-Wno-gnu-empty-struct
+-Isrc/klibc/inc

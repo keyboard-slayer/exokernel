@@ -13,17 +13,19 @@ SCHED_QUANTUM ?= 8
 
 CFLAGS =							\
 	-nostdlib						\
-	-std=c17						\
+	-std=c2x						\
 	-fbuiltin						\
 	-pedantic						\
 	-Wpedantic						\
 	-Werror							\
 	-Wextra							\
 	-Wall							\
+	-Wno-gnu-empty-struct			\
 	-ggdb							\
 	-fno-stack-protector			\
 	-O0								\
-	-D__$(ARCH)__
+	-D__$(ARCH)__					\
+	-Isrc/klibc/inc
 
 ASFLAGS =							\
 	-F dwarf						\

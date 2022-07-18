@@ -12,7 +12,7 @@
 #include <stdbool.h>
 #include <stdint.h>
 #include <stddef.h>
-#include <klibc/inc/vec.h>
+#include <vec.h>
 
 typedef struct 
 {
