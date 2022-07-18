@@ -5,17 +5,15 @@
 #include "../inc/elf.h"
 #include "../inc/sched.h"
 
+#include <assert.h>
+
 int _start(void)
 {
     arch_init();
     sched_init();
 
     void *executable = loader_get_module("/bin/test.elf");
-    if (executable == NULL)
-    {
-        klog(ERROR, "Could not load executable");
-        halt();
-    }
+    assert(executable != NULL);
 
     task_t *bin = loader_binary(executable, "/bin/test.elf");
     sched_push(bin);

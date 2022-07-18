@@ -4,6 +4,7 @@
 #include <stddef.h>
 #include <stdlib.h>
 #include <string.h>
+#include <stdint.h>
 
 void vec_expand_(char **data, size_t *length, size_t *capacity, int memsz);
 
@@ -34,5 +35,6 @@ void vec_expand_(char **data, size_t *length, size_t *capacity, int memsz);
 #define vec_pop(v) \
     (v)->data[--((v)->length)]
 
+typedef vec(char) vec_char_t;
 
 #endif /* !KLIBC_INC_VEC_H */

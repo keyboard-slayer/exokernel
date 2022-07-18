@@ -1,3 +1,5 @@
+#include <stdlib.h>
+
 #include "../inc/string.h"
 
 size_t strlen(char const *s)
@@ -69,4 +71,35 @@ char *strrchr(char const *s, int c)
     }
 
     return last;
+}
+
+char *strndup(const char *s, size_t n)
+{
+    char *dup = malloc(n + 1);
+
+    if (dup)
+    {
+        memcpy(dup, s, n);
+        dup[n] = '\0';
+    }
+    return dup;
+}
+
+char *strdup(char const *s)
+{
+    return strndup(s, strlen(s));
+}
+
+int strcmp(char const *s1, char const *s2)
+{
+    while (*s1 && *s2)
+    {
+        if (*s1 != *s2)
+        {
+            return *s1 - *s2;
+        }
+        s1++;
+        s2++;
+    }
+    return *s1 - *s2;
 }
