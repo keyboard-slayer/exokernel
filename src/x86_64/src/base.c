@@ -31,8 +31,3 @@ void arch_init(void)
 
     __asm__ volatile ("sti");
 }
-
-void switch_task(void)
-{
-    __asm__ volatile ("int $48");
-}
