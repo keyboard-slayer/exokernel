@@ -1,6 +1,7 @@
 CC = clang
 LD = ld.lld
 AS = nasm
+PY ?= python3
 
 MKCWD = mkdir -p $(@D)
 BUILD = ./build
@@ -46,6 +47,7 @@ QEMU_FLAGS =												\
 	-drive file=fat:rw:sysroot,media=disk,format=raw		\
 	-enable-kvm												\
 	
+include src/protocol/.build.mk
 include src/unittests/.build.mk
 include src/$(ARCH)/.build.mk
 include src/$(LOADER)/.build.mk
@@ -58,6 +60,8 @@ run: sysroot
 
 test: $(UNITTEST)
 	$(UNITTEST)
+
+proto: $(PROTO)
 
 sysroot: $(KERNEL) $(LOADER_FILE)
 	mkdir -p $(SYSROOT)/boot $(SYSROOT)/bin
