@@ -1,10 +1,11 @@
+#ifdef __kernel__
 #include <kernel/inc/arch.h>
+#include <kernel/inc/klock.h>
+#include <kernel/inc/pmm.h>
+#include <kernel/inc/loader.h>
 
 #include <stdint.h>
 
-#include "../../inc/lock.h" 
-#include "../../inc/pmm.h"
-#include "../../inc/loader.h"
 
 DECLARE_LOCK(liballoc);
 
@@ -41,6 +42,10 @@ void *liballoc_alloc(int pages)
 
 int liballoc_free(void* ptr, int pages)
 {
-    pmm_free((uint64_t) ptr - loader_get_hhdm(), pages);
+    void *space = vmm_get_kernel_pml();
+    pmm_free((uint64_t) ptr - loader_get_hhdm(), pages * PAGE_SIZE);
+    vmm_unmap(space, (uint64_t) ptr);
     return 0;
 }
+
+#endif  /* !__kernel__ */

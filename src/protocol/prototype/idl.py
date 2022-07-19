@@ -6,7 +6,7 @@ import os
 import sys
 from os.path import basename
 from inspect import getfile, getsource
-from hashlib import sha1
+from hashlib import md5
 
 type_translator = {}
 headers = set([])
@@ -16,13 +16,13 @@ source_code = ""
 
 def to_json_type(type_name):
     if type_name in type_translator.values():
-        return "int"
+        return "number"
 
     match type_name:
         case "char *":
             return "string"
         case "long":
-            return "int"
+            return "number"
         case "bool":
             return "bool"
         case "void":
@@ -58,7 +58,7 @@ class HGen(ast.NodeTransformer):
     def visit_FunctionDef(self, node):
         global source_code
 
-        identifier = "0x"+str(sha1(self.module_name.encode()).hexdigest())
+        identifier = "0x"+str(md5(self.module_name.encode()).hexdigest()[:16])
 
         func_name = node.name
         func_args = [(arg.arg, to_ctype(arg.annotation.id)) for arg in node.args.args]
@@ -78,6 +78,13 @@ class HGen(ast.NodeTransformer):
                 exit(1)
         else:
             return_type = to_ctype(node.returns.id)
+
+        source_code += "typedef struct \n{\n"
+
+        for arg_name, arg_type in func_args:
+            source_code += f"    {arg_type} {arg_name};\n"
+        
+        source_code += f"}} {self.module_name}_req_{func_name.lower()}_t;\n\n"
 
         source_code += (
             f"{return_type} {self.module_name.lower()}_{func_name}({args});\n"
@@ -135,6 +142,7 @@ class CGen(ast.NodeTransformer):
             with open(os.path.join(sys.argv[1], "src", f"{self.module_name}.c"), "w") as f:
                 # --- HEADERS 
                 f.write("#include <assert.h>\n")
+                f.write("#include <ipc.h>\n")
                 f.write("#include <json.h>\n")
                 f.write("#include <unistd.h>\n\n")
                 f.write(f'#include "../inc/{self.module_name}.h"\n\n')
@@ -147,15 +155,16 @@ class CGen(ast.NodeTransformer):
 
             f.write(template.format(
                 C_response_type = return_type,
-                rpc_response_type = to_json_type(return_type),
-                rpc_function = f"{self.module_name}_{func_name}",
+                rpc_response_type = to_json_type(return_type).upper(),
+                rpc_function = func_name,
                 rpc_function_UPPER = f"{self.module_name.upper()}_{func_name.upper()}",
                 rpc_args = args,
-                rpc_module = f"{self.module_name}_{func_name}",
+                rpc_module = self.module_name,
+                rpc_args_unpack = "\n        ".join([f".{arg_name} = json_get(rpc_args, \"{arg_name}\")._{to_json_type(arg_type)}," for arg_name, arg_type in func_args]),
                 rpc_identifier = f"{self.module_name.upper()}_IDENTIFIER",
                 rpc_args_push = "\n    ".join(f"json_push(&rpc_args, \"{arg_name}\", json_{to_json_type(arg_type)}({arg_name}));" for arg_name, arg_type in func_args),
-                rpc_return = "" if return_type == "void" else  f"{return_type} ret = resp._{to_json_type(return_type)};",
-                rpc_ret = "" if return_type == "void" else  f"\n    return ret"
+                rpc_return = "" if return_type == "void" else  f"{return_type} ret = resp->_{to_json_type(return_type)};",
+                rpc_ret = "" if return_type == "void" else  f"\n    return ret;"
             ))
 
 

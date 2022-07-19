@@ -1,6 +1,8 @@
 #include <kernel/inc/logging.h>
 #include <kernel/inc/sched.h>
 #include <kernel/inc/com.h>
+#include <kernel/inc/pmm.h>
+#include <kernel/inc/arch.h>
 
 #include <stdint.h>
 #include <unistd.h>
@@ -35,9 +37,38 @@ int64_t syscall_getpid(__attribute__((unused)) regs_t *regs)
     return sched_current()->pid;
 }
 
+int64_t syscall_alloc(regs_t *regs)
+{
+    void *space = sched_current()->space;
+    void *ptr = pmm_alloc(regs->rbx);
+    if (ptr == NULL)
+    {
+        return 0;
+    }
+
+    vmm_map(space, (virtual_physical_map_t) {
+        .physical = (uintptr_t) ptr,
+        .virtual = (uintptr_t) ptr,
+        .length = regs->rbx
+    }, true);
+
+    return (uintptr_t) ptr;
+}
+
+int64_t syscall_free(regs_t *regs)
+{
+    void *space = sched_current()->space;
+    pmm_free(regs->rbx, regs->rcx);
+    vmm_unmap(space, regs->rcx);
+    
+    return 0;
+}
+
 syscall_t syscall_matrix[] = {
     [SYS_LOG] = syscall_log,
-    [SYS_GETPID] = syscall_getpid
+    [SYS_GETPID] = syscall_getpid,
+    [SYS_ALLOC] = syscall_alloc,
+    [SYS_FREE] = syscall_free
 };
 
 int64_t syscall_handler(regs_t *regs)

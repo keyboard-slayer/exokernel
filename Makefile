@@ -24,7 +24,7 @@ CFLAGS =							\
 	-Wno-gnu-statement-expression	\
 	-ggdb							\
 	-fno-stack-protector			\
-	-O0								\
+	-Os								\
 	-D__$(ARCH)__					\
 	-DSTB_SPRINTF_IMPLEMENTATION	\
 	-Isrc/libc/inc
@@ -53,7 +53,7 @@ include src/$(ARCH)/.build.mk
 include src/$(LOADER)/.build.mk
 include src/libc/.build.mk
 include src/kernel/.build.mk
-include src/userspace-test/.build.mk
+include src/echo/.build.mk
 
 run: sysroot
 	$(QEMU) $(QEMU_FLAGS)

@@ -22,7 +22,7 @@ KERNEL_LDFLAGS +=					\
 KERNEL_SRC += 						\
 	$(LIBC_SRC)						\
 	$(wildcard src/kernel/src/*.c)	\
-	$(wildcard src/kernel/src/liballoc/*.c)
+	$(wildcard src/liballoc/*.c)
 
 KERNEL_OBJ := $(patsubst %, $(KERNEL_BUILD)/%.o, $(KERNEL_SRC))
 DEPENDENCIES += $(KERNEL_OBJ:.o=.d)

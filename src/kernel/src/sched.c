@@ -12,7 +12,7 @@
 #include "../inc/pmm.h"
 #include "../inc/utils.h"
 #include "../inc/loader.h"
-#include "../inc/lock.h"
+#include "../inc/klock.h"
 
 static pid_t last_pid = 0;
 static bool sched_running = true;
